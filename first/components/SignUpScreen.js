@@ -30,7 +30,7 @@ const SignUp = ({ navigation }) => {
         <TextInput style={styles.input} placeholder="Occupation" />
         <TextInput style={styles.input} placeholder="Interests" />
         <TouchableOpacity style={styles.button} onPress={navigateToSignIn}>
-          <Text style={styles.buttonText}>Sign In</Text>
+          <Text style={styles.buttonText}>Sign Up</Text>
         </TouchableOpacity>
       </View>
     </View>

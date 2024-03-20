@@ -6,7 +6,7 @@ import LoginScreen from './components/LoginScreen';
 import SignUpScreen from './components/SignUpScreen';
 import ForgetPasswordScreen from './components/ForgetPasswordScreen';
 import ChangePassword from './components/ChangePassword';
-import CameraScreen from './components/CameraScreen';
+// import CameraScreen from './components/CameraScreen';
 
 
 
@@ -22,7 +22,7 @@ const App = () => {
         <Stack.Screen name="SignUp" component={SignUpScreen} />
         <Stack.Screen name="ForgetPasswordScreen" component={ForgetPasswordScreen}/>
         <Stack.Screen name="ChangePassword" component={ChangePassword}/>
-        <Stack.Screen name="CameraScreen" component={CameraScreen}/>
+        {/* <Stack.Screen name="CameraScreen" component={CameraScreen}/> */}
 
       </Stack.Navigator>
     </NavigationContainer>
