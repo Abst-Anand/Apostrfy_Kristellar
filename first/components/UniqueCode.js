@@ -1,7 +1,5 @@
-// UniqueCode.js
-
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, ScrollView } from 'react-native';
 
 const UniqueCode = ({ navigation }) => {
   const [code, setCode] = useState('');
@@ -14,35 +12,40 @@ const UniqueCode = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>UNIQUE CODE</Text>
-      <Text style={styles.subtitle}>Please enter your unique code</Text>
+      <ScrollView contentContainerStyle={styles.scrollViewContent}>
+        <Text style={styles.title}>UNIQUE CODE</Text>
+        <Text style={styles.subtitle}>Please enter your Unique Invite ode</Text>
 
-      <View style={styles.codeContainer}>
-        {[...Array(5)].map((_, index) => (
-          <TextInput
-            key={index}
-            style={styles.codeInput}
-            maxLength={1}
-            keyboardType="ascii-capable"
-            onChangeText={(text) => {
-              if (text.length === 1 && index < 4) {
-                // Move focus to the next input
-                this[`inputRef${index + 1}`].focus();
-              }
-              // Update the code state
-              setCode((prevCode) => {
-                const newCode = [...prevCode];
-                newCode[index] = text;
-                return newCode;
-              });
-            }}
-            ref={(input) => (this[`inputRef${index}`] = input)}
-          />
-        ))}
-      </View>
-
-      <Button title="Submit" onPress={handleButtonClick} />
-
+        <View style={styles.codeContainer}>
+          {[...Array(5)].map((_, index) => (
+            <TextInput
+              key={index}
+              style={styles.codeInput}
+              maxLength={1}
+              keyboardType="ascii-capable"
+              onChangeText={(text) => {
+                if (text.length === 1 && index < 4) {
+                  // Move focus to the next input
+                  this[`inputRef${index + 1}`].focus();
+                }
+                // Update the code state
+                setCode((prevCode) => {
+                  const newCode = [...prevCode];
+                  newCode[index] = text;
+                  return newCode;
+                });
+              }}
+              onKeyPress={({ nativeEvent: { key } }) => {
+                if (key === 'Backspace' && index > 0 && !code[index]-1) {
+                  // Move focus to the previous input
+                  this[`inputRef${index - 1}`].focus();
+                }
+              }}
+              ref={(input) => (this[`inputRef${index}`] = input)}
+            />
+          ))}
+        </View>
+      </ScrollView>
     </View>
   );
 };
@@ -51,13 +54,20 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'black',
-    justifyContent: 'center',
+  },
+  scrollViewContent: {
+    flexGrow: 1,
+    justifyContent: 'flex-start',
     alignItems: 'center',
+    paddingBottom: 100, // Adjust paddingBottom to make space for the button
   },
   title: {
     fontSize: 24,
-    fontWeight: 'bold',
+    fontWeight: 'normal',
     color: 'white',
+    marginTop: 100,
+    letterSpacing: 5,
+    //paddingHorizontal: 70,
   },
   subtitle: {
     fontSize: 18,
@@ -68,15 +78,16 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
+    marginTop: 200,
   },
   codeInput: {
     width: 40,
-    height: 40,
+    height: 50,
     fontSize: 20,
     textAlign: 'center',
     margin: 5,
-    borderWidth: 1,
-    borderColor: 'white',
+    borderRightWidth: 3,
+    borderColor: 'grey',
     color: 'white',
   },
 });
