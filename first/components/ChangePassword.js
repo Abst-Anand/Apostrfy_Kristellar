@@ -42,7 +42,7 @@ const ChangePasswordScreen = () => {
 
   const handleCamera = () => {
     // Navigate to the CameraScreen when camera button is pressed
-    navigation.navigate('CameraScreen');
+    navigation.navigate('FaceAuthenticationScreen');
   };
 
   return (

@@ -1,35 +1,77 @@
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, TextInput, Alert } from 'react-native';
 
 const SignUp = ({ navigation }) => {
-  const navigateToSignIn = () => {
+  const [name, setName] = useState('');
+  const [dateOfBirth, setDateOfBirth] = useState('');
+  const [email, setEmail] = useState('');
+  const [city, setCity] = useState('');
+  const [occupation, setOccupation] = useState('');
+  const [interests, setInterests] = useState('');
+
+  const validateAndSignUp = () => {
+    // Basic form validation
+    if (!name || !dateOfBirth || !email || !city || !occupation || !interests) {
+      Alert.alert('Error', 'Please fill in all fields');
+      return;
+    }
+
+    // Additional validation (e.g., email format)
+    // You can use libraries like 'validator' for more robust validation
+
+    // If all fields are filled, proceed with authentication (dummy authentication for demonstration)
+    authenticateUser();
+  };
+
+  const authenticateUser = () => {
+    // Dummy authentication logic (replace with your authentication mechanism)
+    // For demonstration, assume user is signed up successfully
+    Alert.alert('Success', 'User signed up successfully');
+    // Navigate to sign in screen or any other screen as needed
     navigation.navigate('SignIn');
   };
 
   return (
     <View style={styles.container}>
-      <View style={styles.sidebar}>
-        <TouchableOpacity style={styles.sidebarItem}>
-          <Text style={styles.sidebarText}>Users</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.sidebarItem}>
-          <Text style={styles.sidebarText}>Prompts</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.sidebarItem}>
-          <Text style={styles.sidebarText}>Drops</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.sidebarItem}>
-          <Text style={styles.sidebarText}>Drops Notification</Text>
-        </TouchableOpacity>
-      </View>
       <View style={styles.main}>
-        <TextInput style={styles.input} placeholder="Name" />
-        <TextInput style={styles.input} placeholder="Date of Birth" />
-        <TextInput style={styles.input} placeholder="Email" />
-        <TextInput style={styles.input} placeholder="City" />
-        <TextInput style={styles.input} placeholder="Occupation" />
-        <TextInput style={styles.input} placeholder="Interests" />
-        <TouchableOpacity style={styles.button} onPress={navigateToSignIn}>
+        <TextInput
+          style={styles.input}
+          placeholder="Name"
+          value={name}
+          onChangeText={setName}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Date of Birth"
+          value={dateOfBirth}
+          onChangeText={setDateOfBirth}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Email"
+          value={email}
+          onChangeText={setEmail}
+          keyboardType="email-address"
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="City"
+          value={city}
+          onChangeText={setCity}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Occupation"
+          value={occupation}
+          onChangeText={setOccupation}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Interests"
+          value={interests}
+          onChangeText={setInterests}
+        />
+        <TouchableOpacity style={styles.button} onPress={validateAndSignUp}>
           <Text style={styles.buttonText}>Sign Up</Text>
         </TouchableOpacity>
       </View>
@@ -40,30 +82,13 @@ const SignUp = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'row',
-  },
-  sidebar: {
-    flex: 1,
-    backgroundColor: '#FFFFFF',
-    padding: 20,
-    justifyContent: 'space-between',
-  },
-  sidebarItem: {
-    marginBottom: 20,
-  },
-  sidebarText: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#000000',
-  },
-  main: {
-    flex: 3,
-    backgroundColor: '#FFFFFF',
-    padding: 20,
+    justifyContent: 'center',
     alignItems: 'center',
   },
+  main: {
+    width: '80%',
+  },
   input: {
-    width: '100%',
     height: 40,
     marginBottom: 20,
     borderWidth: 1,
@@ -72,7 +97,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   button: {
-    width: '100%',
     height: 40,
     backgroundColor: '#007bff',
     borderRadius: 5,
