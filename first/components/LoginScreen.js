@@ -1,21 +1,25 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
-import { useNavigation } from '@react-navigation/native'; // Import the useNavigation hook
+import { useNavigation } from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/FontAwesome'; // Import the icon library
 
 const { width, height } = Dimensions.get('window');
 
 const LoginScreen = () => {
-  const navigation = useNavigation(); // Use the useNavigation hook to get the navigation object
-  // const [email, setEmail] = useState('');
+  const navigation = useNavigation();
   const [password, setPassword] = useState('');
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false); // State to track password visibility
+
+  const togglePasswordVisibility = () => {
+    setIsPasswordVisible(!isPasswordVisible); // Toggle password visibility
+  };
 
   const handleLogin = () => {
-    // Handle login logic
-    console.log('Logging in with:', email, password);
+    console.log('Logging in with:', password);
+    navigation.navigate('UniqueCode');
   };
 
   const handleForgetPassword = () => {
-    // Navigate to the ForgetPasswordScreen when "Forget Password" is pressed
     navigation.navigate('ForgetPasswordScreen');
   };
 
@@ -26,17 +30,20 @@ const LoginScreen = () => {
       <View style={styles.inputContainer}>
         <TextInput
           style={styles.input}
-          placeholder="Password"
           onChangeText={setPassword}
           value={password}
-          secureTextEntry
+          secureTextEntry={!isPasswordVisible} // Use secureTextEntry based on password visibility state
+          placeholder="Password"
           placeholderTextColor="#999"
+          caretHidden={false}
         />
+        <TouchableOpacity style={styles.eyeIcon} onPress={togglePasswordVisibility}>
+          <Icon name={isPasswordVisible ? 'eye' : 'eye-slash'} size={20} color="#F7CF3D" />
+        </TouchableOpacity>
       </View>
       <TouchableOpacity style={styles.button} onPress={handleLogin}>
         <Text style={styles.buttonText}>Sign In</Text>
       </TouchableOpacity>
-      {/* Use onPress to call handleForgetPassword when "Forget Password" is pressed */}
       <TouchableOpacity onPress={handleForgetPassword}>
         <Text style={styles.forgetPasswordText}>Forget Password</Text>
       </TouchableOpacity>
@@ -59,17 +66,22 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     width: '100%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderBottomWidth: 1,
+    borderBottomColor: '#F7CF3D',
     marginTop: height * 0.08,
     marginBottom: height * 0.03,
   },
   input: {
-    width: '100%',
+    flex: 1,
     height: height * 0.06,
-    backgroundColor: '#333',
-    borderRadius: 8,
     color: '#fff',
-    paddingHorizontal: width * 0.03,
-    marginBottom: height * 0.02,
+    fontSize: width * 0.04,
+  },
+  eyeIcon: {
+    padding: 10,
+    
   },
   button: {
     width: '100%',
