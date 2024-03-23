@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import React, { useState } from "react";
 import {
   View,
@@ -11,11 +10,6 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import axios from "axios";
 import { Alert } from "react-native";
-=======
-import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Dimensions, ScrollView } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
->>>>>>> cd26cd070ee0986f6ce3afe964fd337a08e0a945
 
 const { width, height } = Dimensions.get("window");
 
@@ -53,7 +47,6 @@ const AuthScreen = () => {
       setCityWarning(true);
       return;
     }
-<<<<<<< HEAD
     if (!occupation) {
       setOccupationWarning(true);
       return;
@@ -63,45 +56,42 @@ const AuthScreen = () => {
       return;
     }
   };
-=======
-   
->>>>>>> cd26cd070ee0986f6ce3afe964fd337a08e0a945
 
   const handleSignup = async () => {
     validateForm();
 
-    const formData = { name, email, dob, city, occupation, interests };
-    console.log("formData: ", formData);
+    if (name && email && dob && city && occupation && interests) {
+      try {
+        const formData = { name, email, dob, city, occupation, interests };
+        console.log("formData: ", formData);
 
-    const url = "http://localhost:3000/register";
+        const url = "http://192.168.233.220:3000/register";
+        const response = await fetch(url, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(formData),
+        });
 
-    let result = await fetch(url, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ formData }),
-    });
-
-    result = await result.json();
-
-    if(result){
-      console.warn(result)
+        if (response.ok) {
+          // Registration successful
+          Alert.alert("Success", "User registered successfully!");
+          // Clear form fields
+          setName("");
+          setEmail("");
+          setDob("");
+          setCity("");
+          setOccupation("");
+          setInterests("");
+        } else {
+          // Server error
+          Alert.alert("Error", "Failed to register. Please try again.");
+        }
+      } catch (error) {
+        // Network error or other unexpected errors
+        console.error("Error:", error);
+        Alert.alert("Error", "Failed to register. Please try again.");
+      }
     }
-    // All fields are filled, continue with signup logic
-    console.log(
-      "Signing up with:",
-      name,
-      dob,
-      email,
-      city,
-      occupation,
-      interests
-    );
-    // Navigate to the login page after signing up
-<<<<<<< HEAD
-    // navigation.navigate('Login');
-=======
-    navigation.navigate('WelcomePage');
->>>>>>> cd26cd070ee0986f6ce3afe964fd337a08e0a945
   };
 
   const formatDob = (text) => {
@@ -128,7 +118,7 @@ const AuthScreen = () => {
   };
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
+    <View style={styles.container}>
       <Text style={styles.title}>WELCOME!</Text>
       <View style={styles.inputContainer}>
         <TextInput
@@ -186,7 +176,6 @@ const AuthScreen = () => {
           placeholderTextColor="#999"
         />
         {cityWarning && <Text style={styles.warning}>City is required</Text>}
-<<<<<<< HEAD
         <TextInput
           style={styles.input}
           placeholder="Occupation"
@@ -216,31 +205,20 @@ const AuthScreen = () => {
         {interestsWarning && (
           <Text style={styles.warning}>Interests are required</Text>
         )}
-=======
-      
-       
->>>>>>> cd26cd070ee0986f6ce3afe964fd337a08e0a945
       </View>
       <TouchableOpacity style={styles.button} onPress={handleSignup}>
         <Text style={styles.buttonText}>Sign Up</Text>
       </TouchableOpacity>
-    </ScrollView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-<<<<<<< HEAD
     flex: 1,
     backgroundColor: "#000",
     justifyContent: "center",
     alignItems: "center",
-=======
-    flexGrow: 1,
-    backgroundColor: '#000',
-    justifyContent: 'center',
-    alignItems: 'center',
->>>>>>> cd26cd070ee0986f6ce3afe964fd337a08e0a945
     padding: width * 0.1,
   },
   title: {
@@ -264,11 +242,7 @@ const styles = StyleSheet.create({
   button: {
     width: "100%",
     height: height * 0.06,
-<<<<<<< HEAD
     backgroundColor: "#007bff",
-=======
-    backgroundColor: '#fff',
->>>>>>> cd26cd070ee0986f6ce3afe964fd337a08e0a945
     borderRadius: 8,
     justifyContent: "center",
     alignItems: "center",
@@ -276,13 +250,8 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontSize: width * 0.05,
-<<<<<<< HEAD
     color: "#fff",
     fontWeight: "bold",
-=======
-    color: '#000000',
-    fontWeight: 'bold',
->>>>>>> cd26cd070ee0986f6ce3afe964fd337a08e0a945
   },
   warning: {
     color: "red",
