@@ -10,6 +10,7 @@ const app = express();
 // Parse JSON bodies
 //app.use(express.urlencoded({extended:true}))
 app.use(bodyParser.json());
+app.use(cors)
 
 // const username = 'iamsatyanarayanmishra'
 // const password = 'n0BCadrfl6PEKM3O'
@@ -70,6 +71,7 @@ app.post('/register', async (req, res) => {
     
     await newUser.save();
     res.status(200).send('User registered successfully!');
+    console.log("done")
   } catch (error) {
     console.error('Error:', error);
     res.status(500).send('Failed to register user.');

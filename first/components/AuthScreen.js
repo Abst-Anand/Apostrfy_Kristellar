@@ -64,8 +64,9 @@ const AuthScreen = () => {
       try {
         const formData = { name, email, dob, city, occupation, interests };
         console.log("formData: ", formData);
+        Alert.alert(formData)
 
-        const url = "http://192.168.233.220:3000/register";
+        const url = "http://192.168.233.220:3000/register"; 
         const response = await fetch(url, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
