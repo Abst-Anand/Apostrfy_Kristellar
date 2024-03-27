@@ -3,20 +3,51 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, Dimensions } from 
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome'; // Import the icon library
 
+import {signInMain} from '../backend/handlers/handleSignUp'
+
 const { width, height } = Dimensions.get('window');
 
 const LoginScreen = () => {
   const navigation = useNavigation();
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [emailWarning, setEmailWarning] = useState(false);
+  const [passwordWarning, setPasswordWarning] = useState(false);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false); // State to track password visibility
 
   const togglePasswordVisibility = () => {
     setIsPasswordVisible(!isPasswordVisible); // Toggle password visibility
   };
 
-  const handleLogin = () => {
-    console.log('Logging in with:', password);
-    navigation.navigate('UniqueCode');
+  const validateForm = () =>{
+    if(!email){
+      setEmailWarning(true)
+      return
+    }
+    if(!password){
+      setPasswordWarning(true)
+      return
+    }
+  }
+
+  const handleLogin = async() => {
+    validateForm()
+    const formData = {email, password}
+    //console.warn("FormData:",formData)
+
+    const response = await signInMain(formData,'/login')
+
+    if(response.status === 201){
+      console.warn("Login Successfull")
+    }
+    else if(response.status === 501){
+      console.warn("Wrong Credentials")
+    }
+    else{
+      console.warn("Something went wrong")
+    }
+
+
   };
 
   const handleForgetPassword = () => {
@@ -26,8 +57,21 @@ const LoginScreen = () => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>WELCOME BACK!</Text>
-      <Text style={[styles.title, { fontSize: 18, color: '#73777B' }]}>Enter your password to continue</Text>
+      
+      <Text style={[styles.title, { fontSize: 18, color: '#73777B' }]}>Enter your email and password to continue</Text>
+      <View style={styles.inputContainer1}>
+      <TextInput
+          style={styles.input}
+          onChangeText={(text)=>{setEmail(text); setEmailWarning(false)}}
+          value={email}
+          placeholder="Email"
+          placeholderTextColor="#999"
+          caretHidden={false}
+        />
+        {emailWarning && <Text style={styles.warning}>Email is required</Text>}
+      </View>
       <View style={styles.inputContainer}>
+     
         <TextInput
           style={styles.input}
           onChangeText={setPassword}
@@ -37,6 +81,7 @@ const LoginScreen = () => {
           placeholderTextColor="#999"
           caretHidden={false}
         />
+        {passwordWarning && <Text style={styles.warning}>Password is required</Text>}
         <TouchableOpacity style={styles.eyeIcon} onPress={togglePasswordVisibility}>
           <Icon name={isPasswordVisible ? 'eye' : 'eye-slash'} size={20} color="#F7CF3D" />
         </TouchableOpacity>
@@ -64,6 +109,15 @@ const styles = StyleSheet.create({
     color: '#fff',
     marginBottom: height * 0.006,
   },
+  inputContainer1: {
+    width: '100%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    borderBottomWidth: 1,
+    borderBottomColor: '#F7CF3D',
+    marginTop: height * 0.08,
+
+  },
   inputContainer: {
     width: '100%',
     flexDirection: 'row',
@@ -71,7 +125,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: '#F7CF3D',
     marginTop: height * 0.08,
-    marginBottom: height * 0.03,
+    marginBottom: height * 0.09,
   },
   input: {
     flex: 1,
@@ -102,6 +156,11 @@ const styles = StyleSheet.create({
     color: '#6499E9',
     marginLeft: 200,
     textDecorationLine: 'underline',
+  },
+  warning: {
+    color: "red",
+    fontSize: width * 0.04,
+    marginBottom: height * 0.01,
   },
 });
 

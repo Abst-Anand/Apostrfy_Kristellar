@@ -8,8 +8,10 @@ import {
   Dimensions,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import axios from "axios";
+
 import { Alert } from "react-native";
+
+import { signUpMain } from "../backend/handlers/handleSignUp";
 
 const { width, height } = Dimensions.get("window");
 
@@ -17,16 +19,23 @@ const AuthScreen = () => {
   const navigation = useNavigation();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [userName, setUserName] = useState("");
   const [dob, setDob] = useState("");
   const [city, setCity] = useState("");
   const [occupation, setOccupation] = useState("");
   const [interests, setInterests] = useState("");
+
   const [nameWarning, setNameWarning] = useState(false);
   const [dobWarning, setDobWarning] = useState(false);
+  const [dobDateWarning, setDobDateWarning] = useState(false);
+  const [dobMonthWarning, setDobMonthWarning] = useState(false);
+  const [dobYearWarning, setDobYearWarning] = useState(false);
   const [emailWarning, setEmailWarning] = useState(false);
   const [cityWarning, setCityWarning] = useState(false);
   const [occupationWarning, setOccupationWarning] = useState(false);
   const [interestsWarning, setInterestsWarning] = useState(false);
+
+  const [flag, setFlag] = useState(false);
 
   const validateForm = () => {
     // Validate input fields
@@ -37,10 +46,33 @@ const AuthScreen = () => {
     if (!email || !validateEmail(email)) {
       setEmailWarning(true);
       return;
+    } else {
+      const uname = email.split("@")[0];
+      setUserName(uname);
     }
     if (!dob) {
       setDobWarning(true);
       return;
+    }
+    if (dob) {
+      const date = dob.split("/")[0];
+      const month = dob.split("/")[1];
+      const year = dob.split("/")[2];
+
+      if (date <= 0 || date > 31) {
+        setDobDateWarning(true);
+        return;
+      }
+
+      if (month <= 0 || month > 12) {
+        setDobMonthWarning(true);
+        return;
+      }
+
+      if (year > 2004) {
+        setDobYearWarning(true);
+        return;
+      }
     }
 
     if (!city) {
@@ -55,43 +87,25 @@ const AuthScreen = () => {
       setInterestsWarning(true);
       return;
     }
+
+    handleSignup();
   };
 
   const handleSignup = async () => {
-    validateForm();
+    const formData = { name, email, dob, city, occupation, interests };
 
-    if (name && email && dob && city && occupation && interests) {
-      try {
-        const formData = { name, email, dob, city, occupation, interests };
-        console.log("formData: ", formData);
-        Alert.alert(formData)
-
-        const url = "http://192.168.233.220:3000/register"; 
-        const response = await fetch(url, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(formData),
-        });
-
-        if (response.ok) {
-          // Registration successful
-          Alert.alert("Success", "User registered successfully!");
-          // Clear form fields
-          setName("");
-          setEmail("");
-          setDob("");
-          setCity("");
-          setOccupation("");
-          setInterests("");
-        } else {
-          // Server error
-          Alert.alert("Error", "Failed to register. Please try again.");
-        }
-      } catch (error) {
-        // Network error or other unexpected errors
-        console.error("Error:", error);
-        Alert.alert("Error", "Failed to register. Please try again.");
-      }
+    resp = await signUpMain(formData, "/signup");
+    
+    if (resp.status === 200) {
+      // Registration successful
+      Alert.alert("Success", "User registered successfully!");
+      navigation.navigate("Login");
+    } else if (resp.status === 501) {
+      //if already registered
+      Alert.alert("Your email is already registered with us");
+    } else {
+      // Server error
+      Alert.alert("Error", "Failed to register. Please try again.");
     }
   };
 
@@ -149,6 +163,7 @@ const AuthScreen = () => {
         {emailWarning && (
           <Text style={styles.warning}>Enter a valid email address</Text>
         )}
+
         <TextInput
           style={styles.input}
           placeholder="Date of Birth (DD/MM/YYYY)"
@@ -156,6 +171,9 @@ const AuthScreen = () => {
             const formattedText = formatDob(text);
             setDob(formattedText);
             setDobWarning(false); // Clear warning when user starts typing
+            setDobDateWarning(false); // Clear warning when user starts typing
+            setDobMonthWarning(false); // Clear warning when user starts typing
+            setDobYearWarning(false); // Clear warning when user starts typing
           }}
           value={dob}
           keyboardType="numeric"
@@ -164,6 +182,17 @@ const AuthScreen = () => {
         />
         {dobWarning && (
           <Text style={styles.warning}>Date of Birth is required</Text>
+        )}
+        {dobDateWarning && (
+          <Text style={styles.warning}>Date must be between 1 and 31</Text>
+        )}
+        {dobMonthWarning && (
+          <Text style={styles.warning}>Month must be between 1 and 12</Text>
+        )}
+        {dobYearWarning && (
+          <Text style={styles.warning}>
+            Year of Birth must be less than 2005
+          </Text>
         )}
         <TextInput
           style={styles.input}
@@ -207,7 +236,7 @@ const AuthScreen = () => {
           <Text style={styles.warning}>Interests are required</Text>
         )}
       </View>
-      <TouchableOpacity style={styles.button} onPress={handleSignup}>
+      <TouchableOpacity style={styles.button} onPress={validateForm}>
         <Text style={styles.buttonText}>Sign Up</Text>
       </TouchableOpacity>
     </View>
