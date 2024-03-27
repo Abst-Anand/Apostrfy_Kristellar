@@ -8,10 +8,9 @@ import {
   Dimensions,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-
 import { Alert } from "react-native";
-
 import { signUpMain } from "../backend/handlers/handleSignUp";
+import { MaterialIcons } from "@expo/vector-icons";
 
 const { width, height } = Dimensions.get("window");
 
@@ -24,6 +23,8 @@ const AuthScreen = () => {
   const [city, setCity] = useState("");
   const [occupation, setOccupation] = useState("");
   const [interests, setInterests] = useState("");
+  const [password, setPassword] = useState("");
+  const [retypePassword, setRetypePassword] = useState("");
 
   const [nameWarning, setNameWarning] = useState(false);
   const [dobWarning, setDobWarning] = useState(false);
@@ -34,8 +35,13 @@ const AuthScreen = () => {
   const [cityWarning, setCityWarning] = useState(false);
   const [occupationWarning, setOccupationWarning] = useState(false);
   const [interestsWarning, setInterestsWarning] = useState(false);
+  const [passwordWarning, setPasswordWarning] = useState(false);
+  const [retypePasswordWarning, setRetypePasswordWarning] = useState(false);
 
-  const [flag, setFlag] = useState(false);
+  const [passwordVisibility, setPasswordVisibility] = useState(false);
+  const [retypePasswordVisibility, setRetypePasswordVisibility] = useState(
+    false
+  );
 
   const validateForm = () => {
     // Validate input fields
@@ -87,6 +93,14 @@ const AuthScreen = () => {
       setInterestsWarning(true);
       return;
     }
+    if (!password) {
+      setPasswordWarning(true);
+      return;
+    }
+    if (!retypePassword || retypePassword !== password) {
+      setRetypePasswordWarning(true);
+      return;
+    }
 
     handleSignup();
   };
@@ -95,7 +109,7 @@ const AuthScreen = () => {
     const formData = { name, email, dob, city, occupation, interests };
 
     resp = await signUpMain(formData, "/signup");
-    
+
     if (resp.status === 200) {
       // Registration successful
       Alert.alert("Success", "User registered successfully!");
@@ -130,6 +144,15 @@ const AuthScreen = () => {
     // Regular expression to validate email format
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailPattern.test(email);
+  };
+
+  const togglePasswordVisibility = (field) => {
+    // Toggle password visibility
+    if (field === "password") {
+      setPasswordVisibility(!passwordVisibility);
+    } else if (field === "retypePassword") {
+      setRetypePasswordVisibility(!retypePasswordVisibility);
+    }
   };
 
   return (
@@ -189,7 +212,7 @@ const AuthScreen = () => {
         {dobMonthWarning && (
           <Text style={styles.warning}>Month must be between 1 and 12</Text>
         )}
-        {dobYearWarning && (
+        {dobYearWarning        && (
           <Text style={styles.warning}>
             Year of Birth must be less than 2005
           </Text>
@@ -234,6 +257,64 @@ const AuthScreen = () => {
 
         {interestsWarning && (
           <Text style={styles.warning}>Interests are required</Text>
+        )}
+
+        {/* Password Input */}
+        <View style={styles.passwordContainer}>
+          <TextInput
+            style={styles.passwordInput}
+            placeholder="Password"
+            onChangeText={(text) => {
+              setPassword(text);
+              setPasswordWarning(false); // Clear warning when user starts typing
+            }}
+            value={password}
+            secureTextEntry={!passwordVisibility}
+            autoCapitalize="none"
+            placeholderTextColor="#999"
+          />
+          <TouchableOpacity
+            style={styles.eyeIcon}
+            onPress={() => togglePasswordVisibility("password")}
+          >
+            <MaterialIcons
+              name={passwordVisibility ? "visibility-off" : "visibility"}
+              size={24}
+              color="#999"
+            />
+          </TouchableOpacity>
+        </View>
+        {passwordWarning && (
+          <Text style={styles.warning}>Password is required</Text>
+        )}
+
+        {/* Retype Password Input */}
+        <View style={styles.passwordContainer}>
+          <TextInput
+            style={styles.passwordInput}
+            placeholder="Retype Password"
+            onChangeText={(text) => {
+              setRetypePassword(text);
+              setRetypePasswordWarning(false); // Clear warning when user starts typing
+            }}
+            value={retypePassword}
+            secureTextEntry={!retypePasswordVisibility}
+            autoCapitalize="none"
+            placeholderTextColor="#999"
+          />
+          <TouchableOpacity
+            style={styles.eyeIcon}
+            onPress={() => togglePasswordVisibility("retypePassword")}
+          >
+            <MaterialIcons
+              name={retypePasswordVisibility ? "visibility-off" : "visibility"}
+              size={24}
+              color="#999"
+            />
+          </TouchableOpacity>
+        </View>
+        {retypePasswordWarning && (
+          <Text style={styles.warning}>Passwords do not match</Text>
         )}
       </View>
       <TouchableOpacity style={styles.button} onPress={validateForm}>
@@ -288,6 +369,24 @@ const styles = StyleSheet.create({
     fontSize: width * 0.04,
     marginBottom: height * 0.01,
   },
+  passwordContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: height * 0.02,
+    width:300,
+  },
+  passwordInput: {
+    flex: 1,
+    height: height * 0.06,
+    backgroundColor: "#333",
+    borderRadius: 8,
+    color: "#fff",
+    paddingHorizontal: width * 0.03,
+  },
+  eyeIcon: {
+    marginLeft: -width * 0.1,
+  },
 });
 
 export default AuthScreen;
+
