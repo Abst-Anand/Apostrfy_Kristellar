@@ -1,34 +1,47 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, Alert } from 'react-native';
 import { Feather } from '@expo/vector-icons'; // Import Feather from expo/vector-icons
 import { Share } from 'react-native';
 import { useNavigation } from '@react-navigation/native'; // Import useNavigation hook
+import { useState } from 'react';
 
-const handleShare = async () => {
-  try {
-    const result = await Share.share({
-      message: 'Check out this awesome app! www.example.com/invite',
-    });
-    if (result.action === Share.sharedAction) {
-      if (result.activityType) {
-        // Shared via activity type
-        console.log(`Shared via ${result.activityType}`);
-      } else {
-        // Shared
-        console.log('Shared');
-      }
-    } else if (result.action === Share.dismissedAction) {
-      // Dismissed
-      console.log('Dismissed');
-    }
-  } catch (error) {
-    console.error(error.message);
-  }
-};
+
 
 const InviteFriendsScreen = () => {
   const navigation = useNavigation(); // Initialize navigation
+  const [invitesLeft, setInvitesLeft] = useState(0);
 
+  const handleShare = async () => {
+  
+    try {
+      const result = await Share.share({
+        message: 'Check out this awesome app! https://www.apostrfy.com/',
+      });
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // Shared via activity type
+          console.log(`Shared via ${result.activityType}`);
+        } else {
+          // Shared
+          console.log('Shared');
+          //setInvitesLeft(invitesLeft - 1)
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // Dismissed
+        console.log('Dismissed');
+      }
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
+  
+  const handleSendInvites = () => {
+    if (invitesLeft > 0) {
+      handleShare(); // Only handle sharing if invitesLeft is greater than 0
+    } else {
+      
+    }
+  };
   return (
     <View style={styles.container}>
       <View style={styles.box}>
@@ -37,17 +50,18 @@ const InviteFriendsScreen = () => {
           When your friends join through your referral, you'll automatically become connections.
         </Text>
         <Image
-          source={require('../assets/Untitled.png')}
+          source={require('./assets/Untitled.png')}
           style={styles.image}
         />
         <TouchableOpacity onPress={() => console.log('Link pressed')}>
           <Text style={{ color: '#fff', marginLeft: 125 }}>Link:</Text>
           <Text style={styles.link}>https://www.apostrfy.com/invite</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.sendButton} onPress={handleShare}>
+        <TouchableOpacity style={styles.sendButton} onPress={handleSendInvites} disabled={invitesLeft === 0}>
           <Text style={styles.sendButtonText}>Send Invites</Text>
         </TouchableOpacity>
-        <Text style={{ color: '#fff', marginLeft: 100, marginTop: 10 }}>Invites Left: 3</Text>
+
+        <Text style={{ color: '#fff', marginLeft: 100, marginTop: 10 }}>Invites Left: {invitesLeft}</Text>
       </View>
       {/* Add the footer component here */}
       <View style={styles.footer}>
@@ -93,6 +107,9 @@ const styles = StyleSheet.create({
   description: {
     fontSize: 16,
     marginBottom: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'center',
   },
   image: {
     width: '100%',
@@ -105,7 +122,7 @@ const styles = StyleSheet.create({
     color: '#537895',
     textDecorationLine: 'underline',
     marginBottom: 20,
-    marginLeft: 30,
+    marginLeft: 15,
   },
   sendButton: {
     backgroundColor: '#4d7e79',
