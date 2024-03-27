@@ -31,6 +31,7 @@ const signUpSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const signUpModel = mongoose.model("SignUpModel", signUpSchema);
+//model is equivalent to tables in sql. So this model can be used in signup and signin both.
+const signUpModel = mongoose.model("users", signUpSchema);
 
 module.exports = signUpModel;
