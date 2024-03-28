@@ -18,7 +18,7 @@ const CreatePasswordScreen = () => {
       // Passwords match, proceed with creating the password
       console.log('New password:', newPassword);
       console.log('Confirm password:', confirmPassword);
-      navigation.navigate('SetupPasswordScreen'); // Navigate to the next screen only if passwords match
+      navigation.navigate('UniqueCode'); // Navigate to the next screen only if passwords match
     } else {
       // Passwords don't match, display error message and underline confirm password input in red
       setError('Password mismatch');

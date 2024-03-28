@@ -33,7 +33,7 @@ export const PrivateMessageScreen = (props) => {
   const senderName = props.route.params.name; // Example sender name, you can replace it with a dynamic value
   const receiverProfilePic = props.route.params.picture; // Example receiver profile picture
 
-  const sendIcon = require('./assets/icons8-send-48.png');
+  const sendIcon = require('../assets/icons8-send-48.png');
 
 
   

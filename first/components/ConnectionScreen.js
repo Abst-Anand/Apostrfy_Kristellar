@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, FlatList, Image } from 'react-native';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, FlatList, Image, Share } from 'react-native'; // Import Share from 'react-native'
 import { Feather } from '@expo/vector-icons'; 
 import { useNavigation } from '@react-navigation/native'; 
 
 const ConnectionScreen = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [onlineUsers, setOnlineUsers] = useState([
-    { id: '1', name: 'Debashis Sundray', online: true, profileImage: require('../assets/gg.png') },
+    { id: '1', name: 'Debashis Sundaray', online: true, profileImage: require('../assets/gg.png') },
     { id: '2', name: 'Sumit Kumar Panda', online: true, profileImage: require('../assets/gg.png') },
     { id: '3', name: 'Satyanarayan Mishra', online: true, profileImage: require('../assets/gg.png') },
     { id: '4', name: 'Anand Raj', offline: false, profileImage: require('../assets/pic1.png') },
@@ -14,8 +14,8 @@ const ConnectionScreen = () => {
   ]);
   const [offlineUsers, setOfflineUsers] = useState([
   
-    { id: '5', name: 'Priyanka Mohakud', offline: false, profileImage: require('../assets/priya (1).jpg') },
-    { id: '6', name: 'Manisha Choudhary', offline: false, profileImage: require('../assets/mani.jpg') },
+    { id: '5', name: 'Priyanka Mohakud', offline: false, profileImage: require('../assets/gg.png') },
+    { id: '6', name: 'Manisha Choudhary', offline: false, profileImage: require('../assets/gg.png') },
     // Add more offline users as needed
   ]);
   
@@ -34,8 +34,12 @@ const ConnectionScreen = () => {
   };
 
   const handleShareInvite = () => {
-    // Logic to share the invite link
-    console.log('Invite link shared');
+    // Share invite link using Share API
+    Share.share({
+      message: 'Here is the invite link...', // Customize the message as per your requirement
+    })
+      .then(result => console.log(result))
+      .catch(error => console.log(error));
   };
 
   const handleSearch = (text) => {
@@ -119,7 +123,8 @@ const FooterButton = ({ icon, onPress }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000000',
+    backgroundColor: '#11235a',
+  
     padding: 16,
   },
   searchContainer: {
@@ -203,13 +208,11 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center',
     padding: 10,
-    backgroundColor: '#000000',
+    backgroundColor: '#11235a',
     position: 'absolute',
     left: 0,
     right: 0,
     bottom: 0,
-
- 
   },
   footerButton: {
     padding: 10,

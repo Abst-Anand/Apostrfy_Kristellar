@@ -17,7 +17,7 @@ const ForgetPasswordScreen = () => {
 
     // Handle reset password logic
     console.log('Reset password for:', email);
-    navigation.navigate('CreatePasswordScreen');
+    navigation.navigate('SetupPasswordScreen');
   };
 
   const handleSendThought = () => {

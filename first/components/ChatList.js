@@ -26,56 +26,56 @@ const ChatList = (props) => {
     { 
         id: 1, 
         name: 'John Doe', 
-        picture: require("./assets/download.jpeg"),
+        picture: require("../assets/download.jpeg"),
         lastMessage: 'Hey there!',
         //time: '10:20',
     },
     { 
         id: 2, 
         name: 'Jane Smith', 
-        picture: require("./assets/girl.jpg"),
+        picture: require("../assets/girl.jpg"),
         lastMessage: 'How are you?',
         //time: '10:20', 
     },
     { 
         id: 3, 
         name: 'Jane Smith', 
-        picture: require("./assets/girl.jpg"),
+        picture: require("../assets/girl.jpg"),
         lastMessage: 'How are you?',
         //time: '10:20', 
     },
     { 
         id: 4, 
         name: 'Jane Smith', 
-        picture: require("./assets/girl.jpg"),
+        picture: require("../assets/girl.jpg"),
         lastMessage: 'How are you?',
         //time: '10:20',
     },
     { 
         id: 5, 
         name: 'Jane Smith', 
-        picture: require("./assets/girl.jpg"),
+        picture: require("../assets/girl.jpg"),
         lastMessage: 'How are you?',
         //time: '10:20', 
     },
     { 
         id: 6, 
         name: 'Jane Smith', 
-        picture: require("./assets/girl.jpg"),
+        picture: require("../assets/girl.jpg"),
         lastMessage: 'How are you?',
         //time: '10:20', 
     },
     { 
         id: 7, 
         name: 'Jane Smith', 
-        picture: require("./assets/girl.jpg"),
+        picture: require("../assets/girl.jpg"),
         lastMessage: 'How are you?',
         //time: '10:20', 
     },
     { 
         id: 8, 
         name: 'Jane Smith', 
-        picture: require("./assets/girl.jpg"),
+        picture: require("../assets/girl.jpg"),
         lastMessage: 'How are you?',
         //time: '10:20', 
     },
@@ -85,31 +85,31 @@ const ChatList = (props) => {
     { 
         id: 1, 
         name: 'Person 1', 
-        picture: require('./assets/girl.jpg')
+        picture: require('../assets/girl.jpg')
     },
     { 
         id: 2, 
         name: 'Person 1', 
-        picture: require('./assets/girl.jpg')
+        picture: require('../assets/girl.jpg')
     },
     { 
         id: 3, 
         name: 'Person 2',
-        picture: require('./assets/girl.jpg')
+        picture: require('../assets/girl.jpg')
     },
     { 
         id: 4, 
         name: 'Person 3',
-        picture: require('./assets/girl.jpg') 
+        picture: require('../assets/girl.jpg') 
     },
     { 
         id: 5, 
         name: 'Person 4',
-        picture: require('./assets/girl.jpg') },
+        picture: require('../assets/girl.jpg') },
     { 
         id: 6, 
         name: 'Person 5',
-        picture: require('./assets/girl.jpg') },
+        picture: require('../assets/girl.jpg') },
   ];
 
 //   useEffect(() => {
@@ -226,7 +226,7 @@ const ChatList = (props) => {
         keyExtractor={(item) => item.id.toString()}
         showsVerticalScrollIndicator={false}
         renderItem={({ item }) => (            
-            <TouchableOpacity onPress={() => props.navigation.navigate("PrivateMessageScreen",{name: item.name, picture: item.picture})}>
+            <TouchableOpacity onPress={() => props.navigation.navigate("pvtmsg",{name: item.name, picture: item.picture})}>
             <View style={styles.chatItem}>
                 <Image style={styles.image} source={item.picture} />
                 <Text style={styles.chatName}>{item.name}</Text>

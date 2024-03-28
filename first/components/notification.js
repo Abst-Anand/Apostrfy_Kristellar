@@ -9,7 +9,7 @@ export const Notification = (props) => {
         {
             id: '58',
             post_title: 'Heavy weight',
-            postimage: require('./assets/download.jpeg'),
+            postimage: require('../assets/download.jpeg'),
             post_city: 'newYork',
             username: 'Tom',
             notification: 'sent you a message',
@@ -18,7 +18,7 @@ export const Notification = (props) => {
         {
             id: '57',
             post_title: 'HWe',
-            postimage: require('./assets/download.jpeg'),
+            postimage: require('../assets/download.jpeg'),
             post_city: 'India',
             username: 'Jerry',
             notification: 'sent you a connection request',
@@ -27,7 +27,7 @@ export const Notification = (props) => {
         {
             id: '56',
             post_title: 'HWe',
-            postimage: require('./assets/girl.jpg'),
+            postimage: require('../assets/girl.jpg'),
             post_city: 'India',
             username: 'Jerry',
             notification: 'sent you a connection request',
@@ -36,7 +36,7 @@ export const Notification = (props) => {
         {
             id: '56',
             post_title: 'Heavy weight',
-            postimage: require('./assets/download.jpeg'),
+            postimage: require('../assets/download.jpeg'),
             post_city: 'newYork',
             username: 'Puppy',
             notification: 'sent you a message',
@@ -93,7 +93,7 @@ export const Notification = (props) => {
                                     )}
                                 </View>
                             ) : (
-                                <TouchableOpacity onPress={() => props.navigation.navigate("PrivateMessageScreen",{name: item.username, picture: item.postimage})}>
+                                <TouchableOpacity onPress={() => props.navigation.navigate("pvtmsg",{name: item.username, picture: item.postimage})}>
                                     <View style={styles.arrowButton}>
                                             <Icon name="arrow-right" size={30} color="white" />
                                     </View>
