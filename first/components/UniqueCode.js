@@ -14,7 +14,7 @@ const UniqueCode = ({ navigation }) => {
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
         <Text style={styles.title}>UNIQUE CODE</Text>
-        <Text style={styles.subtitle}>Please enter your Unique Invite ode</Text>
+        <Text style={styles.subtitle}>Please enter your Unique Invite Code</Text>
 
         <View style={styles.codeContainer}>
   {[...Array(5)].map((_, index) => (

@@ -35,7 +35,7 @@ const LoginScreen = () => {
     const formData = {email, password}
     //console.warn("FormData:",formData)
 
-    const response = await signInMain(formData,'/login')
+    const response = await signInMain(formData,'/signin')
 
     if(response.status === 201){
       console.warn("Login Successfull")

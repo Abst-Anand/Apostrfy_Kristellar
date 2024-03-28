@@ -23,6 +23,7 @@ export const signUpMain = async (formData, path) => {
 export const signInMain = async (formData, path) => {
   try {
     const url = prefURL + path
+    console.log("FINAL URL:",url)
     const response = await fetch(url,{method:"POST", headers:{"Content-Type":"application/json"},body:JSON.stringify(formData)})
     return response
   } catch (error) {

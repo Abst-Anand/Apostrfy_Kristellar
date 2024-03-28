@@ -1,8 +1,8 @@
-const signUpUserModel = require("../models/signUpUserModel");
+const signUpUserModel = require("../models/UsersModel");
 
 async function handleSignUp(req, res) {
   try {
-    console.log(req.body);
+    //console.log(req.body);
     const { name, email, dob, city, occupation, interests } = req.body;
 
     console.log("NAME", name);
@@ -25,6 +25,15 @@ async function handleSignUp(req, res) {
   }
 }
 
+async function handleSignIn(req, res) {
+  try {
+    console.log(req);
+  } catch (error) {
+    console.log("Error:", error);
+  }
+}
+
 module.exports = {
   handleSignUp,
+  handleSignIn,
 };

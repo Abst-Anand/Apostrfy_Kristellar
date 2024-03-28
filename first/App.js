@@ -37,7 +37,7 @@ import ChatList from './components/ChatList';
 import ConnectionList from './components/ConnectionList';
 import pvtmsg from './components/pvtmsg';
 import UniqueCode from './components/UniqueCode';
-import MapPage from './components/MapPage';
+
 
 
 const Stack = createStackNavigator();
@@ -80,7 +80,6 @@ const App = () => {
         <Stack.Screen name="ConnectionList" component={ConnectionList}/>
         <Stack.Screen name="pvtmsg" component={pvtmsg}/>
         <Stack.Screen name="UniqueCode" component={UniqueCode}/>
-        <Stack.Screen name="MapPage" component={MapPage}/>
         
 
       </Stack.Navigator>
