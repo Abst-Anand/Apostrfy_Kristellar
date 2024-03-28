@@ -39,9 +39,7 @@ const AuthScreen = () => {
   const [retypePasswordWarning, setRetypePasswordWarning] = useState(false);
 
   const [passwordVisibility, setPasswordVisibility] = useState(false);
-  const [retypePasswordVisibility, setRetypePasswordVisibility] = useState(
-    false
-  );
+  const [retypePasswordVisibility, setRetypePasswordVisibility] = useState(false);
 
   const validateForm = () => {
     // Validate input fields
@@ -106,7 +104,7 @@ const AuthScreen = () => {
   };
 
   const handleSignup = async () => {
-    const formData = { name, email, dob, city, occupation, interests };
+    const formData = { name, email, dob, city, occupation, interests, password };
 
     resp = await signUpMain(formData, "/signup");
 
