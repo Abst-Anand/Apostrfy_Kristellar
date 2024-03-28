@@ -111,7 +111,7 @@ const AuthScreen = () => {
     if (resp.status === 200) {
       // Registration successful
       Alert.alert("Success", "User registered successfully!");
-      navigation.navigate("Login");
+      navigation.navigate("WelcomePage");
     } else if (resp.status === 501) {
       //if already registered
       Alert.alert("Your email is already registered with us");
@@ -351,7 +351,7 @@ const styles = StyleSheet.create({
   button: {
     width: "100%",
     height: height * 0.06,
-    backgroundColor: "#007bff",
+    backgroundColor: "#fff",
     borderRadius: 8,
     justifyContent: "center",
     alignItems: "center",
@@ -359,7 +359,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontSize: width * 0.05,
-    color: "#fff",
+    color: "#000",
     fontWeight: "bold",
   },
   warning: {

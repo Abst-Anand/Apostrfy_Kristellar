@@ -27,8 +27,7 @@ const WelcomePage = () => {
       <Text style={styles.title}>WELCOME BACK!</Text>
       <View style={styles.box}>
         <Text style={styles.boxText}>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut fringilla diam vel libero vehicula, et faucibus
-          justo fermentum.
+          Select your preference
         </Text>
         <View style={styles.optionsContainer}>
           <TouchableOpacity style={styles.option} onPress={handleFingerprintPress}>
@@ -70,7 +69,8 @@ const styles = StyleSheet.create({
     borderWidth: 4,
   },
   boxText: {
-    fontSize: width * 0.04,
+    fontSize: width * 0.05,
+    marginLeft:30,
     color: '#fff',
     marginBottom: height * 0.03,
   },

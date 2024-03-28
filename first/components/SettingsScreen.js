@@ -59,7 +59,7 @@ const SettingsScreen = () => {
           <SettingItem text="Contact Us" screenName="ContactUsScreen" iconName="help-circle-outline" />
           <SettingItem text="Report Bug" screenName="ReportBugScreen" iconName="chatbox-ellipses-outline" />
           {/* Update the text color for "Logout" */}
-          <SettingItem text="Logout" screenName="AppVersionScreen" iconName="exit-outline" isLastItem={true} />
+          <SettingItem text="Logout" screenName="CountdownTimer" iconName="exit-outline" isLastItem={true} />
         </View>
       </ScrollView>
     </View>

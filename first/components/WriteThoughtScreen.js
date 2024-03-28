@@ -142,9 +142,9 @@ const WriteThoughtScreen = () => {
 
       {showChangeProfile && (
         <View style={styles.changeProfileContainer}>
-          <LinearGradient colors={['#22c1c3', '#BEE393']} style={styles.changeProfileTitle}>
+      
             <Text style={styles.changeProfileTitleText}>Change Profile Picture</Text>
-          </LinearGradient>
+        
           <Text style={styles.changeProfileText}>
             Make sure your face is visible for accurate matching.
             Ensure the uploaded picture corresponds to the face.
@@ -169,11 +169,11 @@ const WriteThoughtScreen = () => {
 
       <View style={styles.footer}>
         {/* Footer buttons */}
-        <FooterButton icon="home" onPress={() => console.log('WriteThoughtScreen')} />
-        <FooterButton icon="message-circle" onPress={() => console.log('Messages button pressed')} />
-        <FooterButton icon="map-pin" onPress={() => console.log('Map button pressed')} />
-        <FooterButton icon="users" onPress={() => console.log('Contacts button pressed')} />
-        <FooterButton icon="bell" onPress={() => console.log('Notifications button pressed')} />
+        <FooterButton icon="home" onPress={() => navigation.navigate('WriteThoughtScreen')} />
+        <FooterButton icon="message-circle" onPress={() => navigation.navigate('ChatList')} />
+        <FooterButton icon="map-pin" onPress={() => navigation.navigate('MapPage')} />
+        <FooterButton icon="users" onPress={() => navigation.navigate('ConnectionScreen')} />
+        <FooterButton icon="bell" onPress={() => navigation.navigate('notification')} />
       </View>
     </LinearGradient>
   );
@@ -191,11 +191,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
+    backgroundColor: '#11235a',
   },
   profileContainer: {
     width: '40%',
     height: height * 0.3,
-    backgroundColor: '#f0f0f0',
+    backgroundColor: '#11235a',
     borderRadius: 110,
     overflow: 'hidden',
     marginBottom: 20,

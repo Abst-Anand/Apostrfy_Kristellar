@@ -1,12 +1,18 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 const { width, height } = Dimensions.get('window');
 
 const SetupPasswordScreen = () => {
+  const navigation = useNavigation();
+
   const handleResendMail = () => {
     // Handle resend email logic
     console.log('Resend email');
+
+    // Navigate to the next screen (replace 'NextScreen' with the actual screen name)
+    navigation.navigate('CreatePasswordScreen');
   };
 
   return (
@@ -20,12 +26,10 @@ const SetupPasswordScreen = () => {
         <Text style={styles.buttonText}>Go to Mailbox</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.resendButton} onPress={handleResendMail}>
-      <Text style={styles.secondaryText}>
-        Didn't receive email?{' '}
-        <Text style={styles.resendButtonText} onPress={handleResendMail}>
-          Resend!
+        <Text style={styles.secondaryText}>
+          Didn't receive email?{' '}
+          <Text style={styles.resendButtonText}>Resend!</Text>
         </Text>
-      </Text>
       </TouchableOpacity>
     </View>
   );

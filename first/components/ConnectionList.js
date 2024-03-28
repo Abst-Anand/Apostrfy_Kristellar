@@ -7,20 +7,20 @@ import Icon from 'react-native-vector-icons/FontAwesome5'; // Assuming you have 
 const data = [
   { id: 1, 
     name: 'Aaron Rodgers',
-    profilePic: require('./assets/girl.jpg'),
+    profilePic: require('../assets/girl.jpg'),
 },
   { id: 2, 
     name: 'Adrian Barlowe',
-    profilePic: require('./assets/download.jpeg'),},
-  { id: 3, name: 'Aiden Caddel', profilePic: require('./assets/mocompany.jpg'),},
-  { id: 4, name: 'Alexander Hart', profilePic: require('./assets/girl.jpg'),},
-  { id: 5, name: 'Anthony Katz', profilePic: require('./assets/girl.jpg'),},
-  { id: 6, name: 'Brooke Laurier', profilePic: require('./assets/girl.jpg'),},
-  { id: 7, name: 'Bailey Madden', profilePic: require('./assets/girl.jpg'),},
-  { id: 8, name: 'Deny', profilePic: require('./assets/girl.jpg'),},
-  { id: 9, name: 'Brianna Whitlock', profilePic: require('./assets/girl.jpg'),},
-  { id: 10, name: 'Payal', profilePic: require('./assets/girl.jpg'),},
-  { id: 11, name: 'Anandi', profilePic: require('./assets/girl.jpg'),},
+    profilePic: require('../assets/download.jpeg'),},
+  { id: 3, name: 'Aiden Caddel', profilePic: require('../assets/mocompany.jpg'),},
+  { id: 4, name: 'Alexander Hart', profilePic: require('../assets/girl.jpg'),},
+  { id: 5, name: 'Anthony Katz', profilePic: require('../assets/girl.jpg'),},
+  { id: 6, name: 'Brooke Laurier', profilePic: require('../assets/girl.jpg'),},
+  { id: 7, name: 'Bailey Madden', profilePic: require('../assets/girl.jpg'),},
+  { id: 8, name: 'Deny', profilePic: require('../assets/girl.jpg'),},
+  { id: 9, name: 'Brianna Whitlock', profilePic: require('../assets/girl.jpg'),},
+  { id: 10, name: 'Payal', profilePic: require('../assets/girl.jpg'),},
+  { id: 11, name: 'Anandi', profilePic: require('../assets/girl.jpg'),},
 ];
 
 const ConnectionList = (props) => {
@@ -38,7 +38,7 @@ const ConnectionList = (props) => {
     setFilteredData(filteredData);
   };
   const renderItem = ({ item }) => (
-    <TouchableOpacity onPress={() => props.navigation.navigate("PrivateMessageScreen",{name: item.name, picture: item.profilePic})}>
+    <TouchableOpacity onPress={() => props.navigation.navigate("pvtmsg",{name: item.name, picture: item.profilePic})}>
     <View style={styles.itemContainer}>
       <Image source={item.profilePic} style={styles.profilePic} />
       <Text style={styles.name}>{item.name}</Text>
@@ -103,6 +103,7 @@ const ConnectionList = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    // backgroundColor: '#151918',
     backgroundColor: '#151918',
   },
   itemContainer: {

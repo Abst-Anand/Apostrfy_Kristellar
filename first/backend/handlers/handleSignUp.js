@@ -1,5 +1,9 @@
 //moved code to index.js for simplicity
+<<<<<<< HEAD
 const prefURL = "http://192.168.1.112:3002";
+=======
+const prefURL = "http://192.168.1.117:3002";
+>>>>>>> c29c1fe6024bad9f1d453fe7a7b6291230a5625d
 
 
 
