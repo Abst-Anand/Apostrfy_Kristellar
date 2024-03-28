@@ -19,11 +19,11 @@ function sendEmailToUser(email, name, uniqueCode) {
   <body>
     <div>
       <h1>Hello ${name},</h1>
-      <p>Thank You choosing us.</p>
+    
       <h2>You unique code is : ${uniqueCode}</h2>
     </div>
     <div id="footer" style="background-color: #f0f0f0; padding: 10px;">
-      <p>This is the footer of the email.</p>
+      <p>Thank You choosing us.</p>
       <!-- Add your footer content here -->
     </div>
   </body>

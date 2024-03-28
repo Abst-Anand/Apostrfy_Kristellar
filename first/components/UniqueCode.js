@@ -7,7 +7,7 @@ const UniqueCode = ({ navigation }) => {
   const handleButtonClick = () => {
     // Add your logic to check the unique code and navigate to the login page
     // For now, let's just navigate to a placeholder screen named 'Login'
-    navigation.navigate('WriteThoughtScreen');
+    console.warn(code)
   };
 
   return (
@@ -45,11 +45,7 @@ const UniqueCode = ({ navigation }) => {
     />
   ))}
 </View>
-
-
-
       </ScrollView>
-
       <View style={styles.buttonContainer}>
         <Button title="Submit" onPress={handleButtonClick} />
       </View>

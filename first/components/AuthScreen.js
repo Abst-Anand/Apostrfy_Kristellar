@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Alert } from "react-native";
-import { signUpMain } from "../backend/handlers/handleSignUp";
+import { sendRequest } from "../backend/handlers/sendRequestFromUI";
 import { MaterialIcons } from "@expo/vector-icons";
 
 const { width, height } = Dimensions.get("window");
@@ -106,12 +106,12 @@ const AuthScreen = () => {
   const handleSignup = async () => {
     const formData = { name, email, dob, city, occupation, interests, password };
 
-    resp = await signUpMain(formData, "/signup");
+    resp = await sendRequest(formData, "/signup");
 
     if (resp.status === 200) {
       // Registration successful
       Alert.alert("Success", "User registered successfully!");
-      navigation.navigate("WelcomePage");
+      navigation.navigate("UniqueCode");
     } else if (resp.status === 501) {
       //if already registered
       Alert.alert("Your email is already registered with us");

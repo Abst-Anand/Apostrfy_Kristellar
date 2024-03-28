@@ -44,14 +44,10 @@ const Stack = createStackNavigator();
 
 const App = () => {
   return (
-<<<<<<< HEAD
     <NavigationContainer>
       <Stack.Navigator>
-=======
-    <NavigationContainer >
-      <Stack.Navigator >
->>>>>>> c29c1fe6024bad9f1d453fe7a7b6291230a5625d
         <Stack.Screen name="Auth" component={AuthScreen} />
+        <Stack.Screen name="UniqueCode" component={UniqueCode}/>
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="SignUp" component={SignUpScreen} />
         <Stack.Screen name="ForgetPasswordScreen" component={ForgetPasswordScreen}/>
@@ -84,7 +80,6 @@ const App = () => {
         <Stack.Screen name="ChatList" component={ChatList}/>
         <Stack.Screen name="ConnectionList" component={ConnectionList}/>
         <Stack.Screen name="pvtmsg" component={pvtmsg}/>
-        <Stack.Screen name="UniqueCode" component={UniqueCode}/>
         
 
       </Stack.Navigator>
