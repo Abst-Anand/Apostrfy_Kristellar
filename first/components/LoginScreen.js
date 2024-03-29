@@ -3,7 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, Dimensions } from 
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome'; // Import the icon library
 
-import {signInMain} from '../backend/handlers/handleSignUp'
+import {sendRequest} from '../backend/handlers/sendRequestFromUI'
 
 const { width, height } = Dimensions.get('window');
 
@@ -36,7 +36,7 @@ const LoginScreen = () => {
     navigation.navigate('SplashScreen');
     //console.warn("FormData:",formData)
 
-    const response = await signInMain(formData,'/signin')
+    const response = await sendRequest(formData,'/signin')
 
     if(response.status === 201){
       console.warn("Login Successfull")

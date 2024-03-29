@@ -6,10 +6,12 @@ import {
   TouchableOpacity,
   StyleSheet,
   Dimensions,
+  KeyboardAvoidingView,
+  ScrollView
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Alert } from "react-native";
-import { signUpMain } from "../backend/handlers/handleSignUp";
+import { sendRequest } from "../backend/handlers/sendRequestFromUI";
 import { MaterialIcons } from "@expo/vector-icons";
 
 const { width, height } = Dimensions.get("window");
@@ -39,9 +41,7 @@ const AuthScreen = () => {
   const [retypePasswordWarning, setRetypePasswordWarning] = useState(false);
 
   const [passwordVisibility, setPasswordVisibility] = useState(false);
-  const [retypePasswordVisibility, setRetypePasswordVisibility] = useState(
-    false
-  );
+  const [retypePasswordVisibility, setRetypePasswordVisibility] = useState(false);
 
   const validateForm = () => {
     // Validate input fields
@@ -106,14 +106,14 @@ const AuthScreen = () => {
   };
 
   const handleSignup = async () => {
-    const formData = { name, email, dob, city, occupation, interests };
+    const formData = { name, email, dob, city, occupation, interests, password };
 
-    resp = await signUpMain(formData, "/signup");
+    resp = await sendRequest(formData, "/signup");
 
     if (resp.status === 200) {
       // Registration successful
       Alert.alert("Success", "User registered successfully!");
-      navigation.navigate("WelcomePage");
+      navigation.navigate("UniqueCode");
     } else if (resp.status === 501) {
       //if already registered
       Alert.alert("Your email is already registered with us");
@@ -156,6 +156,8 @@ const AuthScreen = () => {
   };
 
   return (
+    <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
+      <ScrollView contentContainerStyle={styles.scrollViewContent}>
     <View style={styles.container}>
       <Text style={styles.title}>WELCOME!</Text>
       <View style={styles.inputContainer}>
@@ -321,10 +323,17 @@ const AuthScreen = () => {
         <Text style={styles.buttonText}>Sign Up</Text>
       </TouchableOpacity>
     </View>
+    </ScrollView>
+    </KeyboardAvoidingView>
   );
 };
 
 const styles = StyleSheet.create({
+  scrollViewContent: {
+    flexGrow: 1,
+    justifyContent: 'center',
+    
+  },
   container: {
     flex: 1,
     backgroundColor: "#000",
