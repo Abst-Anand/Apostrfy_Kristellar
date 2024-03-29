@@ -72,39 +72,37 @@ const UniqueCode = () => {
         </Text>
 
         <View style={styles.codeContainer}>
-          {[...Array(5)].map((_, index) => (
-            <TextInput
-              key={index}
-              autoCapitalize="characters"
-              style={styles.codeInput}
-              maxLength={1}
-              keyboardType="ascii-capable"
-              onChangeText={(text) => {
-                setCodeWarning(false);
-                if (text.length === 1 && index < 4) {
-                  // Move focus to the next input
-                  this[`inputRef${index + 1}`].focus();
-                }
-                // Update the code state
-                setCode((prevCode) => {
-                  const newCode = [...prevCode];
-                  newCode[index] = text;
-                  return newCode;
-                });
-              }}
-              onKeyPress={({ nativeEvent: { key } }) => {
-                if (key === "Backspace" && index > 0 && !code[index] - 1) {
-                  // Move focus to the previous input
-                  this[`inputRef${index - 1}`].focus();
-                }
-              }}
-              ref={(input) => (this[`inputRef${index}`] = input)}
-            />
-          ))}
-        </View>
-        {codeWarning && (
-          <Text style={styles.warning}>Please Enter the Unique Code</Text>
-        )}
+  {[...Array(5)].map((_, index) => (
+    <TextInput
+      key={index}
+      style={styles.codeInput}
+      maxLength={1}
+      keyboardType="ascii-capable"
+      onChangeText={(text) => {
+        if (text.length === 1 && index < 4) {2
+          // Move focus to the next input
+          this[`inputRef${index + 1}`].focus();
+        }
+        // Update the code state
+        setCode((prevCode) => {
+          const newCode = [...prevCode];
+          newCode[index] = text;
+          return newCode;
+        });
+      }}
+      onKeyPress={({ nativeEvent: { key } }) => {
+        if (key === 'Backspace' && index > 0 && !code[index]-1) {
+          // Move focus to the previous input
+          this[`inputRef${index - 1}`].focus();
+        }
+      }}
+      ref={(input) => (this[`inputRef${index}`] = input)}
+    />
+  ))}
+</View>
+
+
+
       </ScrollView>
 
       <View style={styles.buttonContainer}>

@@ -37,6 +37,8 @@ import ChatList from './components/ChatList';
 import ConnectionList from './components/ConnectionList';
 import pvtmsg from './components/pvtmsg';
 import UniqueCode from './components/UniqueCode';
+import SplashScreen from './components/SplashScreen';
+import SecondAnimation from './components/SecondAnimation';
 
 
 
@@ -80,7 +82,9 @@ const App = () => {
         <Stack.Screen name="ChatList" component={ChatList}/>
         <Stack.Screen name="ConnectionList" component={ConnectionList}/>
         <Stack.Screen name="pvtmsg" component={pvtmsg}/>
-        
+        <Stack.Screen name="UniqueCode" component={UniqueCode}/>
+        <Stack.Screen name="SplashScreen" component={SplashScreen}/>
+        <Stack.Screen name="SecondAnimation" component={SecondAnimation}/>
 
       </Stack.Navigator>
     </NavigationContainer>
