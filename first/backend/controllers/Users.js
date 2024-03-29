@@ -35,6 +35,7 @@ async function handleUniqueCode(req, res) {
       const data = {
         status: true,
         message: "Code found",
+        uniquecode: req.body.code
       }
       return res.status(200).json(data)
     }

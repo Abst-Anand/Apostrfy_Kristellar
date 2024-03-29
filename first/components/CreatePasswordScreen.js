@@ -1,11 +1,17 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Dimensions, TouchableWithoutFeedback } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation,useRoute } from '@react-navigation/native';
 import { FontAwesome } from '@expo/vector-icons'; // Import FontAwesome icon library
 
 const { width, height } = Dimensions.get('window');
 
 const CreatePasswordScreen = () => {
+
+  const route = useRoute();
+  const message = route.params.message;
+
+  console.log(message)
+
   const navigation = useNavigation();
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -18,7 +24,7 @@ const CreatePasswordScreen = () => {
       // Passwords match, proceed with creating the password
       console.log('New password:', newPassword);
       console.log('Confirm password:', confirmPassword);
-      navigation.navigate('UniqueCode'); // Navigate to the next screen only if passwords match
+      navigation.navigate('SplashScreen'); // Navigate to the next screen only if passwords match
     } else {
       // Passwords don't match, display error message and underline confirm password input in red
       setError('Password mismatch');
@@ -35,7 +41,7 @@ const CreatePasswordScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>GENERATE PASSWORD</Text>
+      <Text style={styles.title}>GENERATE PASSWORD for {message}</Text>
       <Text style={styles.text}>To help secure your account</Text>
       <View style={styles.inputContainer}>
         <View style={styles.inputWrapper}>

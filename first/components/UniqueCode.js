@@ -36,8 +36,8 @@ const UniqueCode = () => {
     const response = await sendRequest(formData, "/unique");
     const responseData = await response.json();
     if (responseData.status) {
-      Alert.alert("nub");
-      navigation.navigate("CreatePasswordScreen");
+      Alert.alert("Nub: ",responseData.uniquecode);
+      navigation.navigate("CreatePasswordScreen",{message: responseData.uniquecode});
     } else {
       Alert.alert(responseData.message);
     }
@@ -79,7 +79,8 @@ const UniqueCode = () => {
       maxLength={1}
       keyboardType="ascii-capable"
       onChangeText={(text) => {
-        if (text.length === 1 && index < 4) {2
+        if (text.length === 1 && index < 4) {
+          
           // Move focus to the next input
           this[`inputRef${index + 1}`].focus();
         }
