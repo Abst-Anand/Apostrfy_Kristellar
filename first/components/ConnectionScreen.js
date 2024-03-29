@@ -123,7 +123,7 @@ const FooterButton = ({ icon, onPress }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#11235a',
+    backgroundColor: '#000000',
   
     padding: 16,
   },
@@ -208,7 +208,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center',
     padding: 10,
-    backgroundColor: '#11235a',
+    backgroundColor: '#000000',
     position: 'absolute',
     left: 0,
     right: 0,

@@ -24,7 +24,7 @@ const UniqueCode = ({ navigation }) => {
       maxLength={1}
       keyboardType="ascii-capable"
       onChangeText={(text) => {
-        if (text.length === 1 && index < 4) {
+        if (text.length === 1 && index < 4) {2
           // Move focus to the next input
           this[`inputRef${index + 1}`].focus();
         }

@@ -33,6 +33,7 @@ const LoginScreen = () => {
   const handleLogin = async() => {
     validateForm()
     const formData = {email, password}
+    navigation.navigate('SplashScreen');
     //console.warn("FormData:",formData)
 
     const response = await signInMain(formData,'/signin')
@@ -53,6 +54,8 @@ const LoginScreen = () => {
   const handleForgetPassword = () => {
     navigation.navigate('ForgetPasswordScreen');
   };
+ 
+
 
   return (
     <View style={styles.container}>
