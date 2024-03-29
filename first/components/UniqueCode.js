@@ -33,7 +33,30 @@ const UniqueCode = ({ navigation }) => {
       Alert.alert(responseData.message);
     }
   };
+  useEffect(() => {
+    const filledInputs = code.filter(input => input !== '').length;
+    setIsCodeComplete(filledInputs === 5);
+  }, [code]);
 
+  const handleInputChange = (text, index) => {
+    // Convert input text to uppercase
+    text = text.toUpperCase();
+
+    const newCode = [...code];
+    newCode[index] = text;
+    setCode(newCode);
+
+    if (text === '' && index > 0) {
+      // Move focus to the previous input if the current input is deleted
+      inputRefs.current[index -1].focus();
+    } else if (text === '' && index === 0) {
+      // Clear the current input and keep focus on it
+      inputRefs.current[index].clear();
+    } else if (text.length === 1 && index < 4) {
+      // Move focus to the next input
+      inputRefs.current[index + 1].focus();
+    }
+  };
   return (
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
@@ -76,8 +99,9 @@ const UniqueCode = ({ navigation }) => {
           <Text style={styles.warning}>Please Enter the Unique Code</Text>
         )}
       </ScrollView>
+
       <View style={styles.buttonContainer}>
-        <Button title="Submit" onPress={handleButtonClick} />
+        <Button title="Submit" onPress={handleButtonClick} disabled={!isCodeComplete} />
       </View>
     </View>
   );
@@ -128,11 +152,10 @@ const styles = StyleSheet.create({
     borderColor: "grey",
     color: "white",
   },
-  // buttonContainer: {
-  //   position: 'absolute',
-  //   bottom: 20, // Adjust bottom value as needed
-  //   alignSelf: 'center',
-  // },
+  buttonContainer: {
+    alignSelf: 'center',
+    marginTop: 20,
+  },
 });
 
 export default UniqueCode;
