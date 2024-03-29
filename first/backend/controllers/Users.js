@@ -53,6 +53,7 @@ async function handleUniqueCode(req, res) {
     
   }
 }
+
 async function handleSignUp(req, res) {
   try {
     //console.log(req.body);
@@ -108,4 +109,4 @@ module.exports = {
   handleSignIn,
   handleUniqueCode,
 };
-// checkExistence(generateUniqueCode())
+

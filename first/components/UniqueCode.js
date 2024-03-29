@@ -9,8 +9,16 @@ import {
   Alert,
 } from "react-native";
 
+import { useNavigation } from "@react-navigation/native";
+
 import { sendRequest } from "../backend/handlers/sendRequestFromUI";
-const UniqueCode = ({ navigation }) => {
+
+
+
+const UniqueCode = () => {
+  
+  const navigation = useNavigation()
+
   const [code, setCode] = useState("");
   const [codeWarning, setCodeWarning] = useState(false);
 
@@ -29,14 +37,12 @@ const UniqueCode = ({ navigation }) => {
     const responseData = await response.json();
     if (responseData.status) {
       Alert.alert("nub");
+      navigation.navigate("CreatePasswordScreen");
     } else {
       Alert.alert(responseData.message);
     }
   };
-  useEffect(() => {
-    const filledInputs = code.filter(input => input !== '').length;
-    setIsCodeComplete(filledInputs === 5);
-  }, [code]);
+ 
 
   const handleInputChange = (text, index) => {
     // Convert input text to uppercase
@@ -46,10 +52,10 @@ const UniqueCode = ({ navigation }) => {
     newCode[index] = text;
     setCode(newCode);
 
-    if (text === '' && index > 0) {
+    if (text === "" && index > 0) {
       // Move focus to the previous input if the current input is deleted
-      inputRefs.current[index -1].focus();
-    } else if (text === '' && index === 0) {
+      inputRefs.current[index - 1].focus();
+    } else if (text === "" && index === 0) {
       // Clear the current input and keep focus on it
       inputRefs.current[index].clear();
     } else if (text.length === 1 && index < 4) {
@@ -69,6 +75,7 @@ const UniqueCode = ({ navigation }) => {
           {[...Array(5)].map((_, index) => (
             <TextInput
               key={index}
+              autoCapitalize="characters"
               style={styles.codeInput}
               maxLength={1}
               keyboardType="ascii-capable"
@@ -101,7 +108,11 @@ const UniqueCode = ({ navigation }) => {
       </ScrollView>
 
       <View style={styles.buttonContainer}>
-        <Button title="Submit" onPress={handleButtonClick} disabled={!isCodeComplete} />
+        <Button
+          title="Submit"
+          onPress={handleButtonClick}
+        
+        />
       </View>
     </View>
   );
@@ -121,7 +132,6 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     justifyContent: "flex-start",
     alignItems: "center",
-    paddingBottom: 100, // Adjust paddingBottom to make space for the button
   },
   title: {
     fontSize: 24,
@@ -153,7 +163,7 @@ const styles = StyleSheet.create({
     color: "white",
   },
   buttonContainer: {
-    alignSelf: 'center',
+    alignSelf: "center",
     marginTop: 20,
   },
 });
