@@ -28,16 +28,29 @@ function generateUniqueCode() {
 
 async function handleUniqueCode(req, res) {
   try {
-    let codeTemp = generateUniqueCode();
+    const user = await UniqueCodeModel.findOne({ uniquecode: req.body.code });
 
-    const newUser = new UniqueCodeModel({
-      email,
-      codeTemp,
-    });
-    await newUser.save();
-    console.log("Verified");
+    if (user) {
+      console.log(user.email)
+      const data = {
+        status: true,
+        message: "Code found",
+      }
+      return res.status(200).json(data)
+    }
+    const data={
+      status:false,
+      message:"Code not found"
+    }
+    return res.status(404).json(data)
   } catch (error) {
-    console.log("Not");
+    const data = {
+      status:false,
+      message:"Mongo Error"
+    }
+    console.log("err:",error)
+    return res.status(501).json(data)
+    
   }
 }
 async function handleSignUp(req, res) {
@@ -93,5 +106,6 @@ async function handleSignIn(req, res) {
 module.exports = {
   handleSignUp,
   handleSignIn,
+  handleUniqueCode,
 };
 // checkExistence(generateUniqueCode())

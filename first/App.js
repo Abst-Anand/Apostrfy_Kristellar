@@ -45,7 +45,7 @@ const Stack = createStackNavigator();
 const App = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Auth" component={AuthScreen} />
         <Stack.Screen name="UniqueCode" component={UniqueCode}/>
         <Stack.Screen name="Login" component={LoginScreen} />

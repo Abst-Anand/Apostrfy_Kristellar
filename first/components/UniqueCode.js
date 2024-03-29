@@ -1,50 +1,80 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, ScrollView } from 'react-native';
+import React, { useState } from "react";
+import {
+  View,
+  Text,
+  TextInput,
+  Button,
+  StyleSheet,
+  ScrollView,
+  Alert,
+} from "react-native";
 
+import { sendRequest } from "../backend/handlers/sendRequestFromUI";
 const UniqueCode = ({ navigation }) => {
-  const [code, setCode] = useState('');
+  const [code, setCode] = useState("");
+  const [codeWarning, setCodeWarning] = useState(false);
 
-  const handleButtonClick = () => {
-    // Add your logic to check the unique code and navigate to the login page
-    // For now, let's just navigate to a placeholder screen named 'Login'
-    console.warn(code)
+  const handleButtonClick = async () => {
+    let t = "";
+    for (let i = 0; i < 5; i++) {
+      let tmp = code.toString();
+      let temp = tmp.split(",");
+      if (!temp[i]) {
+        setCodeWarning(true);
+        break;
+      } else t += temp[i];
+    }
+    const formData = { code: t };
+    const response = await sendRequest(formData, "/unique");
+    const responseData = await response.json();
+    if (responseData.status) {
+      Alert.alert("nub");
+    } else {
+      Alert.alert(responseData.message);
+    }
   };
 
   return (
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
         <Text style={styles.title}>UNIQUE CODE</Text>
-        <Text style={styles.subtitle}>Please enter your Unique Invite Code</Text>
+        <Text style={styles.subtitle}>
+          Please enter your Unique Invite Code
+        </Text>
 
         <View style={styles.codeContainer}>
-  {[...Array(5)].map((_, index) => (
-    <TextInput
-      key={index}
-      style={styles.codeInput}
-      maxLength={1}
-      keyboardType="ascii-capable"
-      onChangeText={(text) => {
-        if (text.length === 1 && index < 4) {
-          // Move focus to the next input
-          this[`inputRef${index + 1}`].focus();
-        }
-        // Update the code state
-        setCode((prevCode) => {
-          const newCode = [...prevCode];
-          newCode[index] = text;
-          return newCode;
-        });
-      }}
-      onKeyPress={({ nativeEvent: { key } }) => {
-        if (key === 'Backspace' && index > 0 && !code[index]-1) {
-          // Move focus to the previous input
-          this[`inputRef${index - 1}`].focus();
-        }
-      }}
-      ref={(input) => (this[`inputRef${index}`] = input)}
-    />
-  ))}
-</View>
+          {[...Array(5)].map((_, index) => (
+            <TextInput
+              key={index}
+              style={styles.codeInput}
+              maxLength={1}
+              keyboardType="ascii-capable"
+              onChangeText={(text) => {
+                setCodeWarning(false);
+                if (text.length === 1 && index < 4) {
+                  // Move focus to the next input
+                  this[`inputRef${index + 1}`].focus();
+                }
+                // Update the code state
+                setCode((prevCode) => {
+                  const newCode = [...prevCode];
+                  newCode[index] = text;
+                  return newCode;
+                });
+              }}
+              onKeyPress={({ nativeEvent: { key } }) => {
+                if (key === "Backspace" && index > 0 && !code[index] - 1) {
+                  // Move focus to the previous input
+                  this[`inputRef${index - 1}`].focus();
+                }
+              }}
+              ref={(input) => (this[`inputRef${index}`] = input)}
+            />
+          ))}
+        </View>
+        {codeWarning && (
+          <Text style={styles.warning}>Please Enter the Unique Code</Text>
+        )}
       </ScrollView>
       <View style={styles.buttonContainer}>
         <Button title="Submit" onPress={handleButtonClick} />
@@ -54,44 +84,49 @@ const UniqueCode = ({ navigation }) => {
 };
 
 const styles = StyleSheet.create({
+  warning: {
+    color: "red",
+    fontSize: 20,
+    marginTop: 10,
+  },
   container: {
     flex: 1,
-    backgroundColor: 'black',
+    backgroundColor: "black",
   },
   scrollViewContent: {
     flexGrow: 1,
-    justifyContent: 'flex-start',
-    alignItems: 'center',
+    justifyContent: "flex-start",
+    alignItems: "center",
     paddingBottom: 100, // Adjust paddingBottom to make space for the button
   },
   title: {
     fontSize: 24,
-    fontWeight: 'normal',
-    color: 'white',
+    fontWeight: "normal",
+    color: "white",
     marginTop: 100,
     letterSpacing: 5,
     //paddingHorizontal: 70,
   },
   subtitle: {
     fontSize: 18,
-    color: 'white',
+    color: "white",
     marginVertical: 10,
   },
   codeContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
     marginTop: 200,
   },
   codeInput: {
     width: 40,
     height: 50,
     fontSize: 20,
-    textAlign: 'center',
+    textAlign: "center",
     margin: 5,
     borderRightWidth: 3,
-    borderColor: 'grey',
-    color: 'white',
+    borderColor: "grey",
+    color: "white",
   },
   // buttonContainer: {
   //   position: 'absolute',

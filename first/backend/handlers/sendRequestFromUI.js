@@ -3,7 +3,7 @@ import { API } from "./api";
 
 export const sendRequest = async (formData, path) => {
   console.log(`Request at path: ${path}`)
-  console.log("formData main sign up: ", formData);
+  console.log("Data: ", formData);
   try {
     const url = API + path;
     const response = await fetch(url, {
