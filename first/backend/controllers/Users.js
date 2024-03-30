@@ -1,5 +1,6 @@
 //https://vscode.dev/github/Abst-Anand/Apostrfy_Kristellar/blob/main888ced
 
+
 const UsersModel = require("../models/UsersModel");
 const UniqueCodeModel = require("../models/MapUserAndUniqueCode");
 
@@ -26,34 +27,7 @@ function generateUniqueCode() {
   return code;
 }
 
-async function handleUniqueCode(req, res) {
-  try {
-    const user = await UniqueCodeModel.findOne({ uniquecode: req.body.code });
 
-    if (user) {
-      console.log(user.email)
-      const data = {
-        status: true,
-        message: "Code found",
-        uniquecode: req.body.code
-      }
-      return res.status(200).json(data)
-    }
-    const data={
-      status:false,
-      message:"Code not found"
-    }
-    return res.status(404).json(data)
-  } catch (error) {
-    const data = {
-      status:false,
-      message:"Mongo Error"
-    }
-    console.log("err:",error)
-    return res.status(501).json(data)
-    
-  }
-}
 
 async function handleSignUp(req, res) {
   try {
@@ -94,6 +68,61 @@ async function handleSignUp(req, res) {
   }
 }
 
+async function handleUniqueCode(req, res) {
+  try {
+    const user = await UniqueCodeModel.findOne({ uniquecode: req.body.code });
+
+    if (user) {
+      console.log(user.email);
+      const data = {
+        status: true,
+        message: "Code found",
+        uniquecode: req.body.code,
+      };
+      return res.status(200).json(data);
+    }
+    const data = {
+      status: false,
+      message: "Code not found",
+    };
+    return res.status(404).json(data);
+  } catch (error) {
+    const data = {
+      status: false,
+      message: "Mongo Error",
+    };
+    console.log("err:", error);
+    return res.status(501).json(data);
+  }
+}
+
+async function handleCreatePassword(req, res) {
+  try {
+    const userId = req.body.userUniqueCode;
+    const password = req.body.userPassword;
+   
+
+    const user = await UniqueCodeModel.findOne({ uniquecode: userId });
+    if (user) {
+      const filter = { email: user.email}; // Unique email ID to match
+
+      const update = {
+        $set: {
+          password: 'newFieldValue', // Add your new field and value here
+        },
+      };
+
+      const user2 = await UsersModel.findOne({ email: user.email });
+      console.log("5", user2);
+    }else{
+      console.log("user Not found")
+    }
+  } catch (error) {
+    console.log("user Not found error:",error)
+
+  }
+}
+
 async function handleSignIn(req, res) {
   try {
     const { email, password } = req.body;
@@ -109,5 +138,5 @@ module.exports = {
   handleSignUp,
   handleSignIn,
   handleUniqueCode,
+  handleCreatePassword,
 };
-

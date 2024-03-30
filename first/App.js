@@ -48,9 +48,10 @@ const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="CreatePasswordScreen" component={CreatePasswordScreen}/>
         <Stack.Screen name="Auth" component={AuthScreen} />
         <Stack.Screen name="UniqueCode" component={UniqueCode}/>
-        <Stack.Screen name="CreatePasswordScreen" component={CreatePasswordScreen}/>
+        <Stack.Screen name="SplashScreen" component={SplashScreen}/>
         <Stack.Screen name="Login" component={LoginScreen} />
         {/* <Stack.Screen name="SignUp" component={SignUpScreen} /> */}
         <Stack.Screen name="ForgetPasswordScreen" component={ForgetPasswordScreen}/>
@@ -82,7 +83,6 @@ const App = () => {
         <Stack.Screen name="ChatList" component={ChatList}/>
         <Stack.Screen name="ConnectionList" component={ConnectionList}/>
         <Stack.Screen name="pvtmsg" component={pvtmsg}/>
-        <Stack.Screen name="SplashScreen" component={SplashScreen}/>
         <Stack.Screen name="SecondAnimation" component={SecondAnimation}/>
 
       </Stack.Navigator>

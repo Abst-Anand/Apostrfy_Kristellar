@@ -13,11 +13,8 @@ import { useNavigation } from "@react-navigation/native";
 
 import { sendRequest } from "../backend/handlers/sendRequestFromUI";
 
-
-
 const UniqueCode = () => {
-  
-  const navigation = useNavigation()
+  const navigation = useNavigation();
 
   const [code, setCode] = useState(['', '', '', '', '']);
   //const [isCodeComplete, setIsCodeComplete] = useState(false);
@@ -46,13 +43,14 @@ const UniqueCode = () => {
     const response = await sendRequest(formData, "/unique");
     const responseData = await response.json();
     if (responseData.status) {
-      Alert.alert("Nub: ",responseData.uniquecode);
-      navigation.navigate("CreatePasswordScreen",{message: responseData.uniquecode});
+      Alert.alert("Nub: ", responseData.uniquecode);
+      navigation.navigate("CreatePasswordScreen", {
+        message: responseData.uniquecode,
+      });
     } else {
       Alert.alert(responseData.message);
     }
   };
- 
 
   useEffect(() => {
     const filledInputs = code.filter(input => input !== '').length;
