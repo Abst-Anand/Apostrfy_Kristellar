@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   View,
   Text,
@@ -16,10 +16,20 @@ import { sendRequest } from "../backend/handlers/sendRequestFromUI";
 const UniqueCode = () => {
   const navigation = useNavigation();
 
-  const [code, setCode] = useState("");
-  const [codeWarning, setCodeWarning] = useState(false);
+  const [code, setCode] = useState(['', '', '', '', '']);
+  //const [isCodeComplete, setIsCodeComplete] = useState(false);
+  const inputRefs = useRef([...Array(5)].map(() => React.createRef()));
+  const [codeWarning, setCodeWarning] = useState('');
 
   const handleButtonClick = async () => {
+
+    const isEmpty = code.some(input => input === '');
+  
+  if (isEmpty) {
+    setCodeWarning('Please enter your code.');
+    return;
+  }
+
     let t = "";
     for (let i = 0; i < 5; i++) {
       let tmp = code.toString();
@@ -42,6 +52,11 @@ const UniqueCode = () => {
     }
   };
 
+  useEffect(() => {
+    const filledInputs = code.filter(input => input !== '').length;
+    //setIsCodeComplete(filledInputs === 5);
+  }, [code]);
+
   const handleInputChange = (text, index) => {
     // Convert input text to uppercase
     text = text.toUpperCase();
@@ -50,10 +65,10 @@ const UniqueCode = () => {
     newCode[index] = text;
     setCode(newCode);
 
-    if (text === "" && index > 0) {
+    if (text === '' && index > 0) {
       // Move focus to the previous input if the current input is deleted
-      inputRefs.current[index - 1].focus();
-    } else if (text === "" && index === 0) {
+      inputRefs.current[index -1].focus();
+    } else if (text === '' && index === 0) {
       // Clear the current input and keep focus on it
       inputRefs.current[index].clear();
     } else if (text.length === 1 && index < 4) {
@@ -61,6 +76,7 @@ const UniqueCode = () => {
       inputRefs.current[index + 1].focus();
     }
   };
+
   return (
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
@@ -70,49 +86,35 @@ const UniqueCode = () => {
         </Text>
 
         <View style={styles.codeContainer}>
-          {[...Array(5)].map((_, index) => (
+  {code.map((value, index) => (
             <TextInput
               key={index}
               style={styles.codeInput}
               maxLength={1}
-              keyboardType="ascii-capable"
-              onChangeText={(text) => {
-                if (text.length === 1 && index < 4) {
-                  // Move focus to the next input
-                  this[`inputRef${index + 1}`].focus();
-                }
-                // Update the code state
-                setCode((prevCode) => {
-                  const newCode = [...prevCode];
-                  newCode[index] = text;
-                  return newCode;
-                });
-              }}
-              onKeyPress={({ nativeEvent: { key } }) => {
-                if (key === "Backspace" && index > 0 && !code[index] - 1) {
-                  // Move focus to the previous input
-                  this[`inputRef${index - 1}`].focus();
-                }
-              }}
-              ref={(input) => (this[`inputRef${index}`] = input)}
+              autoCapitalize="characters" // Auto capitalize to uppercase
+              keyboardType="ascii-capable" // ASCII capable keyboard
+              value={value}
+              onChangeText={(text) => handleInputChange(text, index)}
+              ref={input => inputRefs.current[index] = input} // Correct ref assignment
+              //placeholder="-"
+              placeholderTextColor="grey" // Placeholder color
             />
           ))}
         </View>
+        {codeWarning ? <Text style={styles.warning}>{codeWarning}</Text> : null}
       </ScrollView>
 
       <View style={styles.buttonContainer}>
-        <Button title="Submit" onPress={handleButtonClick} />
+        <Button
+          title="Submit"
+          onPress={handleButtonClick}
+        />
       </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  warning: {
-    color: "red",
-    fontSize: 20,
-    marginTop: 10,
-  },
   container: {
     flex: 1,
     backgroundColor: "black",
@@ -154,6 +156,12 @@ const styles = StyleSheet.create({
   buttonContainer: {
     alignSelf: "center",
     marginTop: 20,
+  },
+  warning: {
+    color: "red",
+    fontSize: 16,
+    marginTop: 10,
+    marginLeft: 25
   },
 });
 
