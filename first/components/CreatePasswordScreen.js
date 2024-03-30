@@ -14,37 +14,47 @@ import { FontAwesome } from "@expo/vector-icons"; // Import FontAwesome icon lib
 const { width, height } = Dimensions.get("window");
 
 import { sendRequest } from "../backend/handlers/sendRequestFromUI";
+import {hashPassword} from "../backend/hash/hasher";
 
+console.log(hashPassword)
 
 const CreatePasswordScreen = () => {
-
   const route = useRoute();
-  const uniqueCode = route.params.message;
-  
+  // const uniqueCode = route.params.message;
+
   const navigation = useNavigation();
+
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [newPasswordVisible, setNewPasswordVisible] = useState(false);
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
   const [error, setError] = useState("");
 
-  const checkMisMatch = () => {
-    if (newPassword === confirmPassword) {
-      handleCreatePassword(); // Add User's password only if passwords match
-    } else {
-      // Passwords don't match, display error message and underline confirm password input in red
-      setError("Password mismatch");
+  const checkMisMatch = async () => {
+    try {
+      if (newPassword === confirmPassword) {
+        const hashed = await hashPassword(newPassword, 10);
+        console.log(hashed);
+        setNewPassword(hashed);
+        setConfirmPassword(hashed);
+        // handleCreatePassword(); // Add User's password only if passwords match
+      } else {
+        // Passwords don't match, display error message and underline confirm password input in red
+        setError("Password mismatch");
+      }
+    } catch (error) {
+      // Handle error here
+      console.error("Error in checkMisMatch:", error);
     }
   };
-
-  const handleCreatePassword =async () => {
   
 
+  const handleCreatePassword = async () => {
     const formData = { userUniqueCode: uniqueCode, userPassword: newPassword };
 
-    const response = await sendRequest(formData,"/signup/createpassword")
+    const response = await sendRequest(formData, "/signup/createpassword");
 
-    // navigation.navigate("SplashScreen");
+    navigation.navigate("SplashScreen");
   };
 
   const toggleNewPasswordVisibility = () => {

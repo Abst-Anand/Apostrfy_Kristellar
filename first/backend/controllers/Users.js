@@ -1,5 +1,6 @@
 //https://vscode.dev/github/Abst-Anand/Apostrfy_Kristellar/blob/main888ced
 
+
 const UsersModel = require("../models/UsersModel");
 const UniqueCodeModel = require("../models/MapUserAndUniqueCode");
 
@@ -25,6 +26,8 @@ function generateUniqueCode() {
 
   return code;
 }
+
+
 
 async function handleSignUp(req, res) {
   try {
@@ -97,13 +100,17 @@ async function handleCreatePassword(req, res) {
   try {
     const userId = req.body.userUniqueCode;
     const password = req.body.userPassword;
-    console.log("1", userId);
-    console.log("2", password);
+   
 
     const user = await UniqueCodeModel.findOne({ uniquecode: userId });
     if (user) {
-      console.log("3", user);
-      console.log("4", user.email);
+      const filter = { email: user.email}; // Unique email ID to match
+
+      const update = {
+        $set: {
+          password: 'newFieldValue', // Add your new field and value here
+        },
+      };
 
       const user2 = await UsersModel.findOne({ email: user.email });
       console.log("5", user2);
