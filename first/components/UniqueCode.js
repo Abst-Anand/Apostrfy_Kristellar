@@ -13,11 +13,8 @@ import { useNavigation } from "@react-navigation/native";
 
 import { sendRequest } from "../backend/handlers/sendRequestFromUI";
 
-
-
 const UniqueCode = () => {
-  
-  const navigation = useNavigation()
+  const navigation = useNavigation();
 
   const [code, setCode] = useState("");
   const [codeWarning, setCodeWarning] = useState(false);
@@ -36,13 +33,14 @@ const UniqueCode = () => {
     const response = await sendRequest(formData, "/unique");
     const responseData = await response.json();
     if (responseData.status) {
-      Alert.alert("Nub: ",responseData.uniquecode);
-      navigation.navigate("CreatePasswordScreen",{message: responseData.uniquecode});
+      Alert.alert("Nub: ", responseData.uniquecode);
+      navigation.navigate("CreatePasswordScreen", {
+        message: responseData.uniquecode,
+      });
     } else {
       Alert.alert(responseData.message);
     }
   };
- 
 
   const handleInputChange = (text, index) => {
     // Convert input text to uppercase
@@ -72,46 +70,38 @@ const UniqueCode = () => {
         </Text>
 
         <View style={styles.codeContainer}>
-  {[...Array(5)].map((_, index) => (
-    <TextInput
-      key={index}
-      style={styles.codeInput}
-      maxLength={1}
-      keyboardType="ascii-capable"
-      onChangeText={(text) => {
-        if (text.length === 1 && index < 4) {
-          
-          // Move focus to the next input
-          this[`inputRef${index + 1}`].focus();
-        }
-        // Update the code state
-        setCode((prevCode) => {
-          const newCode = [...prevCode];
-          newCode[index] = text;
-          return newCode;
-        });
-      }}
-      onKeyPress={({ nativeEvent: { key } }) => {
-        if (key === 'Backspace' && index > 0 && !code[index]-1) {
-          // Move focus to the previous input
-          this[`inputRef${index - 1}`].focus();
-        }
-      }}
-      ref={(input) => (this[`inputRef${index}`] = input)}
-    />
-  ))}
-</View>
-
-
-
+          {[...Array(5)].map((_, index) => (
+            <TextInput
+              key={index}
+              style={styles.codeInput}
+              maxLength={1}
+              keyboardType="ascii-capable"
+              onChangeText={(text) => {
+                if (text.length === 1 && index < 4) {
+                  // Move focus to the next input
+                  this[`inputRef${index + 1}`].focus();
+                }
+                // Update the code state
+                setCode((prevCode) => {
+                  const newCode = [...prevCode];
+                  newCode[index] = text;
+                  return newCode;
+                });
+              }}
+              onKeyPress={({ nativeEvent: { key } }) => {
+                if (key === "Backspace" && index > 0 && !code[index] - 1) {
+                  // Move focus to the previous input
+                  this[`inputRef${index - 1}`].focus();
+                }
+              }}
+              ref={(input) => (this[`inputRef${index}`] = input)}
+            />
+          ))}
+        </View>
       </ScrollView>
 
       <View style={styles.buttonContainer}>
-        <Button
-          title="Submit"
-          onPress={handleButtonClick}
-        
-        />
+        <Button title="Submit" onPress={handleButtonClick} />
       </View>
     </View>
   );
