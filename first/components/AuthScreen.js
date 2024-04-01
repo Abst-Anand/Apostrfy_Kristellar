@@ -12,7 +12,7 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import { Alert } from "react-native";
 import { sendRequest } from "../backend/handlers/sendRequestFromUI";
-import { MaterialIcons } from "@expo/vector-icons";
+//import { MaterialIcons } from "@expo/vector-icons";
 import { MultiSelect } from 'react-native-element-dropdown';
 
 const { width, height } = Dimensions.get("window");
@@ -26,8 +26,8 @@ const AuthScreen = () => {
   const [city, setCity] = useState("");
   const [occupation, setOccupation] = useState("");
   const [interests, setInterests] = useState("");
-  const [password, setPassword] = useState("");
-  const [retypePassword, setRetypePassword] = useState("");
+  //const [password, setPassword] = useState("");
+  // const [retypePassword, setRetypePassword] = useState("");
 
   const [nameWarning, setNameWarning] = useState(false);
   const [dobWarning, setDobWarning] = useState(false);
@@ -38,23 +38,38 @@ const AuthScreen = () => {
   const [cityWarning, setCityWarning] = useState(false);
   const [occupationWarning, setOccupationWarning] = useState(false);
   const [interestsWarning, setInterestsWarning] = useState(false);
-  const [passwordWarning, setPasswordWarning] = useState(false);
-  const [retypePasswordWarning, setRetypePasswordWarning] = useState(false);
+  // const [passwordWarning, setPasswordWarning] = useState(false);
+  // const [retypePasswordWarning, setRetypePasswordWarning] = useState(false);
 
-  const [passwordVisibility, setPasswordVisibility] = useState(false);
-  const [retypePasswordVisibility, setRetypePasswordVisibility] = useState(false);
-  const [selected, setSelected] = useState([]);
+  // const [passwordVisibility, setPasswordVisibility] = useState(false);
+  // const [retypePasswordVisibility, setRetypePasswordVisibility] = useState(false);
+  
 
   const data = [
-    { label: 'Item 1', value: '1' },
-    { label: 'Item 2', value: '2' },
-    { label: 'Item 3', value: '3' },
-    { label: 'Item 4', value: '4' },
-    { label: 'Item 5', value: '5' },
-    { label: 'Item 6', value: '6' },
-    { label: 'Item 7', value: '7' },
-    { label: 'Item 8', value: '8' },
-  ];
+    { label: 'Software Development' },
+    { label: 'Data Science' },
+    { label: 'Machine Learning' },
+    { label: 'Artificial Intelligence' },
+    { label: 'Web Development' },
+    { label: 'Mobile Development' },
+    { label: 'Cybersecurity' },
+    { label: 'Network Engineering' },
+    { label: 'Cloud Computing' },
+    { label: 'DevOps' },
+    { label: 'Database Administration' },
+    { label: 'UI/UX Design' },
+    { label: 'Game Development' },
+    { label: 'Embedded Systems' },
+    { label: 'Robotics' },
+    { label: 'Virtual Reality/Augmented Reality' },
+    { label: 'Internet of Things (IoT)' },
+    { label: 'Big Data Analytics' },
+    { label: 'Blockchain Technology' },
+    { label: 'Bioinformatics' }
+];
+
+
+
 
   const validateForm = () => {
     // Validate input fields
@@ -106,23 +121,23 @@ const AuthScreen = () => {
       setInterestsWarning(true);
       return;
     }
-    if (!password) {
-      setPasswordWarning(true);
-      return;
-    }
-    if (!retypePassword || retypePassword !== password) {
-      setRetypePasswordWarning(true);
-      return;
-    }
+    // if (!password) {
+    //   setPasswordWarning(true);
+    //   return;
+    // }
+    // if (!retypePassword || retypePassword !== password) {
+    //   setRetypePasswordWarning(true);
+    //   return;
+    // }
 
     handleSignup();
   };
 
   const handleSignup = async () => {
-    const formData = { name, email, dob, city, occupation, interests, password };
+    const formData = { name, email, dob, city, occupation, interests};
 
     resp = await sendRequest(formData, "/signup");
-
+    console.log("Checking")
     if (resp.status === 200) {
       // Registration successful
       Alert.alert("Success", "User registered successfully!");
@@ -159,14 +174,14 @@ const AuthScreen = () => {
     return emailPattern.test(email);
   };
 
-  const togglePasswordVisibility = (field) => {
-    // Toggle password visibility
-    if (field === "password") {
-      setPasswordVisibility(!passwordVisibility);
-    } else if (field === "retypePassword") {
-      setRetypePasswordVisibility(!retypePasswordVisibility);
-    }
-  };
+  // const togglePasswordVisibility = (field) => {
+  //   // Toggle password visibility
+  //   if (field === "password") {
+  //     setPasswordVisibility(!passwordVisibility);
+  //   } else if (field === "retypePassword") {
+  //     setRetypePasswordVisibility(!retypePasswordVisibility);
+  //   }
+  // };
 
   return (
     <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
@@ -264,14 +279,13 @@ const AuthScreen = () => {
         style={styles.input}
         data={data}
         labelField="label"
-        valueField="value"
+        valueField="label"
         placeholder="Select your Intrest Area"
-        value={selected}
-        onChange={item => { setSelected(item);}}
-        placeholderStyle={{color: 'grey', fontSize: 14}}
+        value={interests}
+        onChange={(item) => { setInterests(item); setInterestsWarning(false);}}
+        placeholderStyle={{color: 'grey', fontSize: 14.5}}
         containerStyle={{backgroundColor: '#333', borderColor: '#333', borderRadius: 10}}
         itemTextStyle={{color: 'grey'}}
-        selectedStyle={{backgroundColor: 'black'}}
         />
         {/* <TextInput
           style={styles.input}
@@ -290,7 +304,7 @@ const AuthScreen = () => {
         )}
 
         {/* Password Input */}
-        <View style={styles.passwordContainer}>
+        {/* <View style={styles.passwordContainer}>
           <TextInput
             style={styles.passwordInput}
             placeholder="Password"
@@ -318,7 +332,7 @@ const AuthScreen = () => {
           <Text style={styles.warning}>Password is required</Text>
         )}
 
-        {/* Retype Password Input */}
+        Retype Password Input
         <View style={styles.passwordContainer}>
           <TextInput
             style={styles.passwordInput}
@@ -345,7 +359,7 @@ const AuthScreen = () => {
         </View>
         {retypePasswordWarning && (
           <Text style={styles.warning}>Passwords do not match</Text>
-        )}
+        )} */}
       </View>
       <TouchableOpacity style={styles.button} onPress={validateForm}>
         <Text style={styles.buttonText}>Sign Up</Text>
