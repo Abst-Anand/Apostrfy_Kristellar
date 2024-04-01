@@ -35,12 +35,10 @@ import BiometricPage from './components/BiometricPage';
 import notification from './components/notification';
 import ChatList from './components/ChatList';
 import ConnectionList from './components/ConnectionList';
-import pvtmsg from './components/pvtmsg';
+import Pvtmsg from './components/Pvtmsg';
 import UniqueCode from './components/UniqueCode';
 import SplashScreen from './components/SplashScreen';
 import SecondAnimation from './components/SecondAnimation';
-
-
 
 const Stack = createStackNavigator();
 
@@ -82,7 +80,7 @@ const App = () => {
         <Stack.Screen name="notification" component={notification}/>
         <Stack.Screen name="ChatList" component={ChatList}/>
         <Stack.Screen name="ConnectionList" component={ConnectionList}/>
-        <Stack.Screen name="pvtmsg" component={pvtmsg}/>
+        <Stack.Screen name="Pvtmsg" component={Pvtmsg}/>
         <Stack.Screen name="SecondAnimation" component={SecondAnimation}/>
 
       </Stack.Navigator>
