@@ -44,11 +44,14 @@ const Stack = createStackNavigator();
 
 const App = () => {
   return (
-    <NavigationContainer >
-      <Stack.Navigator >
+    <NavigationContainer>
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="CreatePasswordScreen" component={CreatePasswordScreen}/>
         <Stack.Screen name="Auth" component={AuthScreen} />
+        <Stack.Screen name="UniqueCode" component={UniqueCode}/>
+        <Stack.Screen name="SplashScreen" component={SplashScreen}/>
         <Stack.Screen name="Login" component={LoginScreen} />
-        <Stack.Screen name="SignUp" component={SignUpScreen} />
+        {/* <Stack.Screen name="SignUp" component={SignUpScreen} /> */}
         <Stack.Screen name="ForgetPasswordScreen" component={ForgetPasswordScreen}/>
         <Stack.Screen name="ChangePassword" component={ChangePassword}/>
         {/* <Stack.Screen name="AppExternalBioMetric" component={AppExternalBioMetric}/> */}
@@ -59,7 +62,6 @@ const App = () => {
       
         <Stack.Screen name="FingerprintScreen" component={FingerprintScreen}/>
         <Stack.Screen name="FaceIDScreen" component={FaceIDScreen}/>
-        <Stack.Screen name="CreatePasswordScreen" component={CreatePasswordScreen}/>
         <Stack.Screen name="SetupPasswordScreen" component={SetupPasswordScreen}/>
         <Stack.Screen name="PaymentScreen" component={PaymentScreen}/>
         <Stack.Screen name="SettingsScreen" component={SettingsScreen}/>
@@ -78,10 +80,9 @@ const App = () => {
         <Stack.Screen name="notification" component={notification}/>
         <Stack.Screen name="ChatList" component={ChatList}/>
         <Stack.Screen name="ConnectionList" component={ConnectionList}/>
-        <Stack.Screen name="UniqueCode" component={UniqueCode}/>
         <Stack.Screen name="Pvtmsg" component={Pvtmsg}/>
-        <Stack.Screen name="SplashScreen" component={SplashScreen}/>
         <Stack.Screen name="SecondAnimation" component={SecondAnimation}/>
+
       </Stack.Navigator>
     </NavigationContainer>
   );

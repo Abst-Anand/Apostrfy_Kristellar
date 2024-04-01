@@ -13,6 +13,7 @@ import { useNavigation } from "@react-navigation/native";
 import { Alert } from "react-native";
 import { sendRequest } from "../backend/handlers/sendRequestFromUI";
 import { MaterialIcons } from "@expo/vector-icons";
+import { MultiSelect } from 'react-native-element-dropdown';
 
 const { width, height } = Dimensions.get("window");
 
@@ -42,6 +43,18 @@ const AuthScreen = () => {
 
   const [passwordVisibility, setPasswordVisibility] = useState(false);
   const [retypePasswordVisibility, setRetypePasswordVisibility] = useState(false);
+  const [selected, setSelected] = useState([]);
+
+  const data = [
+    { label: 'Item 1', value: '1' },
+    { label: 'Item 2', value: '2' },
+    { label: 'Item 3', value: '3' },
+    { label: 'Item 4', value: '4' },
+    { label: 'Item 5', value: '5' },
+    { label: 'Item 6', value: '6' },
+    { label: 'Item 7', value: '7' },
+    { label: 'Item 8', value: '8' },
+  ];
 
   const validateForm = () => {
     // Validate input fields
@@ -245,7 +258,22 @@ const AuthScreen = () => {
         {occupationWarning && (
           <Text style={styles.warning}>Occupation is required</Text>
         )}
-        <TextInput
+
+
+        <MultiSelect
+        style={styles.input}
+        data={data}
+        labelField="label"
+        valueField="value"
+        placeholder="Select your Intrest Area"
+        value={selected}
+        onChange={item => { setSelected(item);}}
+        placeholderStyle={{color: 'grey', fontSize: 14}}
+        containerStyle={{backgroundColor: '#333', borderColor: '#333', borderRadius: 10}}
+        itemTextStyle={{color: 'grey'}}
+        selectedStyle={{backgroundColor: 'black'}}
+        />
+        {/* <TextInput
           style={styles.input}
           placeholder="Interests"
           onChangeText={(text) => {
@@ -255,7 +283,7 @@ const AuthScreen = () => {
           value={interests}
           autoCapitalize="words"
           placeholderTextColor="#999"
-        />
+        /> */}
 
         {interestsWarning && (
           <Text style={styles.warning}>Interests are required</Text>

@@ -40,7 +40,7 @@ function sendEmailToUser(email, name, uniqueCode) {
   transporter.sendMail(mailOptions, function (err, info) {
     if (err) console.log("error:", err);
     else {
-      console.log("Email Sent:", info);
+      console.log("Email Sent:", info.response);
     }
   });
 }
