@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
   View,
   Text,
@@ -9,12 +9,27 @@ import {
   Alert,
 } from "react-native";
 
+import { useNavigation } from "@react-navigation/native";
+
 import { sendRequest } from "../backend/handlers/sendRequestFromUI";
-const UniqueCode = ({ navigation }) => {
-  const [code, setCode] = useState("");
-  const [codeWarning, setCodeWarning] = useState(false);
+
+const UniqueCode = () => {
+  const navigation = useNavigation();
+
+  const [code, setCode] = useState(['', '', '', '', '']);
+  //const [isCodeComplete, setIsCodeComplete] = useState(false);
+  const inputRefs = useRef([...Array(5)].map(() => React.createRef()));
+  const [codeWarning, setCodeWarning] = useState('');
 
   const handleButtonClick = async () => {
+
+    const isEmpty = code.some(input => input === '');
+  
+  if (isEmpty) {
+    setCodeWarning('Please enter your code.');
+    return;
+  }
+
     let t = "";
     for (let i = 0; i < 5; i++) {
       let tmp = code.toString();
@@ -28,14 +43,18 @@ const UniqueCode = ({ navigation }) => {
     const response = await sendRequest(formData, "/unique");
     const responseData = await response.json();
     if (responseData.status) {
-      Alert.alert("nub");
+      Alert.alert("Nub: ", responseData.uniquecode);
+      navigation.navigate("CreatePasswordScreen", {
+        message: responseData.uniquecode,
+      });
     } else {
       Alert.alert(responseData.message);
     }
   };
+
   useEffect(() => {
     const filledInputs = code.filter(input => input !== '').length;
-    setIsCodeComplete(filledInputs === 5);
+    //setIsCodeComplete(filledInputs === 5);
   }, [code]);
 
   const handleInputChange = (text, index) => {
@@ -57,6 +76,7 @@ const UniqueCode = ({ navigation }) => {
       inputRefs.current[index + 1].focus();
     }
   };
+
   return (
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
@@ -66,87 +86,35 @@ const UniqueCode = ({ navigation }) => {
         </Text>
 
         <View style={styles.codeContainer}>
-<<<<<<< HEAD
-  {[...Array(5)].map((_, index) => (
-    <TextInput
-      key={index}
-      style={styles.codeInput}
-      maxLength={1}
-      keyboardType="ascii-capable"
-      onChangeText={(text) => {
-        if (text.length === 1 && index < 4) {2
-          // Move focus to the next input
-          this[`inputRef${index + 1}`].focus();
-        }
-        // Update the code state
-        setCode((prevCode) => {
-          const newCode = [...prevCode];
-          newCode[index] = text;
-          return newCode;
-        });
-      }}
-      onKeyPress={({ nativeEvent: { key } }) => {
-        if (key === 'Backspace' && index > 0 && !code[index]-1) {
-          // Move focus to the previous input
-          this[`inputRef${index - 1}`].focus();
-        }
-      }}
-      ref={(input) => (this[`inputRef${index}`] = input)}
-    />
-  ))}
-</View>
-
-
-
-=======
-          {[...Array(5)].map((_, index) => (
+  {code.map((value, index) => (
             <TextInput
               key={index}
               style={styles.codeInput}
               maxLength={1}
-              keyboardType="ascii-capable"
-              onChangeText={(text) => {
-                setCodeWarning(false);
-                if (text.length === 1 && index < 4) {
-                  // Move focus to the next input
-                  this[`inputRef${index + 1}`].focus();
-                }
-                // Update the code state
-                setCode((prevCode) => {
-                  const newCode = [...prevCode];
-                  newCode[index] = text;
-                  return newCode;
-                });
-              }}
-              onKeyPress={({ nativeEvent: { key } }) => {
-                if (key === "Backspace" && index > 0 && !code[index] - 1) {
-                  // Move focus to the previous input
-                  this[`inputRef${index - 1}`].focus();
-                }
-              }}
-              ref={(input) => (this[`inputRef${index}`] = input)}
+              autoCapitalize="characters" // Auto capitalize to uppercase
+              keyboardType="ascii-capable" // ASCII capable keyboard
+              value={value}
+              onChangeText={(text) => handleInputChange(text, index)}
+              ref={input => inputRefs.current[index] = input} // Correct ref assignment
+              //placeholder="-"
+              placeholderTextColor="grey" // Placeholder color
             />
           ))}
         </View>
-        {codeWarning && (
-          <Text style={styles.warning}>Please Enter the Unique Code</Text>
-        )}
->>>>>>> 2f1f7e476b28fc3e6f124b5265765cafbfa8a26e
+        {codeWarning ? <Text style={styles.warning}>{codeWarning}</Text> : null}
       </ScrollView>
 
       <View style={styles.buttonContainer}>
-        <Button title="Submit" onPress={handleButtonClick} disabled={!isCodeComplete} />
+        <Button
+          title="Submit"
+          onPress={handleButtonClick}
+        />
       </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  warning: {
-    color: "red",
-    fontSize: 20,
-    marginTop: 10,
-  },
   container: {
     flex: 1,
     backgroundColor: "black",
@@ -155,7 +123,6 @@ const styles = StyleSheet.create({
     flexGrow: 1,
     justifyContent: "flex-start",
     alignItems: "center",
-    paddingBottom: 100, // Adjust paddingBottom to make space for the button
   },
   title: {
     fontSize: 24,
@@ -187,8 +154,14 @@ const styles = StyleSheet.create({
     color: "white",
   },
   buttonContainer: {
-    alignSelf: 'center',
+    alignSelf: "center",
     marginTop: 20,
+  },
+  warning: {
+    color: "red",
+    fontSize: 16,
+    marginTop: 10,
+    marginLeft: 25
   },
 });
 

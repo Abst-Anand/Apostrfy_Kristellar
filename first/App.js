@@ -35,21 +35,18 @@ import BiometricPage from './components/BiometricPage';
 import notification from './components/notification';
 import ChatList from './components/ChatList';
 import ConnectionList from './components/ConnectionList';
-import pvtmsg from './components/pvtmsg';
+import Pvtmsg from './components/Pvtmsg';
 import UniqueCode from './components/UniqueCode';
 import SplashScreen from './components/SplashScreen';
 import SecondAnimation from './components/SecondAnimation';
-
-
 
 const Stack = createStackNavigator();
 
 const App = () => {
   return (
-    <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
+    <NavigationContainer >
+      <Stack.Navigator >
         <Stack.Screen name="Auth" component={AuthScreen} />
-        <Stack.Screen name="UniqueCode" component={UniqueCode}/>
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="SignUp" component={SignUpScreen} />
         <Stack.Screen name="ForgetPasswordScreen" component={ForgetPasswordScreen}/>
@@ -81,15 +78,10 @@ const App = () => {
         <Stack.Screen name="notification" component={notification}/>
         <Stack.Screen name="ChatList" component={ChatList}/>
         <Stack.Screen name="ConnectionList" component={ConnectionList}/>
-        <Stack.Screen name="pvtmsg" component={pvtmsg}/>
-<<<<<<< HEAD
         <Stack.Screen name="UniqueCode" component={UniqueCode}/>
+        <Stack.Screen name="Pvtmsg" component={Pvtmsg}/>
         <Stack.Screen name="SplashScreen" component={SplashScreen}/>
         <Stack.Screen name="SecondAnimation" component={SecondAnimation}/>
-=======
-        
->>>>>>> 2f1f7e476b28fc3e6f124b5265765cafbfa8a26e
-
       </Stack.Navigator>
     </NavigationContainer>
   );
