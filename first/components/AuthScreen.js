@@ -46,15 +46,28 @@ const AuthScreen = () => {
   const [selected, setSelected] = useState([]);
 
   const data = [
-    { label: 'Item 1', value: '1' },
-    { label: 'Item 2', value: '2' },
-    { label: 'Item 3', value: '3' },
-    { label: 'Item 4', value: '4' },
-    { label: 'Item 5', value: '5' },
-    { label: 'Item 6', value: '6' },
-    { label: 'Item 7', value: '7' },
-    { label: 'Item 8', value: '8' },
-  ];
+    { label: 'Software Development', value: '1' },
+    { label: 'Data Science', value: '2' },
+    { label: 'Machine Learning', value: '3' },
+    { label: 'Artificial Intelligence', value: '4' },
+    { label: 'Web Development', value: '5' },
+    { label: 'Mobile Development', value: '6' },
+    { label: 'Cybersecurity', value: '7' },
+    { label: 'Network Engineering', value: '8' },
+    { label: 'Cloud Computing', value: '9' },
+    { label: 'DevOps', value: '10' },
+    { label: 'Database Administration', value: '11' },
+    { label: 'UI/UX Design', value: '12' },
+    { label: 'Game Development', value: '13' },
+    { label: 'Embedded Systems', value: '14' },
+    { label: 'Robotics', value: '15' },
+    { label: 'Virtual Reality/Augmented Reality', value: '16' },
+    { label: 'Internet of Things (IoT)', value: '17' },
+    { label: 'Big Data Analytics', value: '18' },
+    { label: 'Blockchain Technology', value: '19' },
+    { label: 'Bioinformatics', value: '20' },
+];
+
 
   const validateForm = () => {
     // Validate input fields
@@ -268,10 +281,9 @@ const AuthScreen = () => {
         placeholder="Select your Intrest Area"
         value={selected}
         onChange={item => { setSelected(item);}}
-        placeholderStyle={{color: 'grey', fontSize: 14}}
+        placeholderStyle={{color: 'grey', fontSize: 14.5}}
         containerStyle={{backgroundColor: '#333', borderColor: '#333', borderRadius: 10}}
         itemTextStyle={{color: 'grey'}}
-        selectedStyle={{backgroundColor: 'black'}}
         />
         {/* <TextInput
           style={styles.input}
