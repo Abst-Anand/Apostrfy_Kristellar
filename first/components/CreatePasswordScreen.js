@@ -16,7 +16,7 @@ const { width, height } = Dimensions.get("window");
 import { sendRequest } from "../backend/handlers/sendRequestFromUI";
 import {hashPassword} from "../backend/hash/hasher";
 
-console.log(hashPassword)
+
 
 const CreatePasswordScreen = () => {
   const route = useRoute();
@@ -30,14 +30,17 @@ const CreatePasswordScreen = () => {
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
   const [error, setError] = useState("");
 
+
   const checkMisMatch = async () => {
     try {
+      
       if (newPassword === confirmPassword) {
-        const hashed = await hashPassword(newPassword, 10);
-        console.log(hashed);
-        setNewPassword(hashed);
-        setConfirmPassword(hashed);
-        // handleCreatePassword(); // Add User's password only if passwords match
+        // console.log(hashPassword.toString())
+        // const hashed = await hashPassword("nub", 10);
+        // console.log(hashed);
+        // setNewPassword(hashed);
+        // setConfirmPassword(hashed);
+        handleCreatePassword(); // Add User's password only if passwords match
       } else {
         // Passwords don't match, display error message and underline confirm password input in red
         setError("Password mismatch");
@@ -47,10 +50,9 @@ const CreatePasswordScreen = () => {
       console.error("Error in checkMisMatch:", error);
     }
   };
-  
 
   const handleCreatePassword = async () => {
-    const formData = { userUniqueCode: uniqueCode, userPassword: newPassword };
+    const formData = { userUniqueCode: "OLOGT", userPassword: newPassword };
 
     const response = await sendRequest(formData, "/signup/createpassword");
 

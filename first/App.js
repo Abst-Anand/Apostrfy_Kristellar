@@ -79,8 +79,8 @@ const App = () => {
         <Stack.Screen name="BiometricPage" component={BiometricPage}/>
         <Stack.Screen name="notification" component={notification}/>
         <Stack.Screen name="ChatList" component={ChatList}/>
-        <Stack.Screen name="ConnectionList" component={ConnectionList}/>
         <Stack.Screen name="Pvtmsg" component={Pvtmsg}/>
+        <Stack.Screen name="ConnectionList" component={ConnectionList}/>
         <Stack.Screen name="SecondAnimation" component={SecondAnimation}/>
 
       </Stack.Navigator>

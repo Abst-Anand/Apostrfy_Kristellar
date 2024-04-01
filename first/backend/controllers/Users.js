@@ -108,11 +108,11 @@ async function handleCreatePassword(req, res) {
 
       const update = {
         $set: {
-          password: 'newFieldValue', // Add your new field and value here
+          password: password, // Add your new field and value here
         },
       };
 
-      const user2 = await UsersModel.findOne({ email: user.email });
+      const user2 = await UsersModel.findByIdAndUpdate(filter,update);
       console.log("5", user2);
     }else{
       console.log("user Not found")
@@ -140,3 +140,4 @@ module.exports = {
   handleUniqueCode,
   handleCreatePassword,
 };
+
