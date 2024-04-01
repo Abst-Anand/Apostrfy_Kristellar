@@ -12,7 +12,7 @@ import {
 import { useNavigation } from "@react-navigation/native";
 import { Alert } from "react-native";
 import { sendRequest } from "../backend/handlers/sendRequestFromUI";
-import { MaterialIcons } from "@expo/vector-icons";
+//import { MaterialIcons } from "@expo/vector-icons";
 import { MultiSelect } from 'react-native-element-dropdown';
 
 const { width, height } = Dimensions.get("window");
@@ -26,8 +26,8 @@ const AuthScreen = () => {
   const [city, setCity] = useState("");
   const [occupation, setOccupation] = useState("");
   const [interests, setInterests] = useState("");
-  const [password, setPassword] = useState("");
-  const [retypePassword, setRetypePassword] = useState("");
+  //const [password, setPassword] = useState("");
+  // const [retypePassword, setRetypePassword] = useState("");
 
   const [nameWarning, setNameWarning] = useState(false);
   const [dobWarning, setDobWarning] = useState(false);
@@ -38,35 +38,37 @@ const AuthScreen = () => {
   const [cityWarning, setCityWarning] = useState(false);
   const [occupationWarning, setOccupationWarning] = useState(false);
   const [interestsWarning, setInterestsWarning] = useState(false);
-  const [passwordWarning, setPasswordWarning] = useState(false);
-  const [retypePasswordWarning, setRetypePasswordWarning] = useState(false);
+  // const [passwordWarning, setPasswordWarning] = useState(false);
+  // const [retypePasswordWarning, setRetypePasswordWarning] = useState(false);
 
-  const [passwordVisibility, setPasswordVisibility] = useState(false);
-  const [retypePasswordVisibility, setRetypePasswordVisibility] = useState(false);
-  const [selected, setSelected] = useState([]);
+  // const [passwordVisibility, setPasswordVisibility] = useState(false);
+  // const [retypePasswordVisibility, setRetypePasswordVisibility] = useState(false);
+  
 
   const data = [
-    { label: 'Software Development', value: '1' },
-    { label: 'Data Science', value: '2' },
-    { label: 'Machine Learning', value: '3' },
-    { label: 'Artificial Intelligence', value: '4' },
-    { label: 'Web Development', value: '5' },
-    { label: 'Mobile Development', value: '6' },
-    { label: 'Cybersecurity', value: '7' },
-    { label: 'Network Engineering', value: '8' },
-    { label: 'Cloud Computing', value: '9' },
-    { label: 'DevOps', value: '10' },
-    { label: 'Database Administration', value: '11' },
-    { label: 'UI/UX Design', value: '12' },
-    { label: 'Game Development', value: '13' },
-    { label: 'Embedded Systems', value: '14' },
-    { label: 'Robotics', value: '15' },
-    { label: 'Virtual Reality/Augmented Reality', value: '16' },
-    { label: 'Internet of Things (IoT)', value: '17' },
-    { label: 'Big Data Analytics', value: '18' },
-    { label: 'Blockchain Technology', value: '19' },
-    { label: 'Bioinformatics', value: '20' },
+    { label: 'Software Development' },
+    { label: 'Data Science' },
+    { label: 'Machine Learning' },
+    { label: 'Artificial Intelligence' },
+    { label: 'Web Development' },
+    { label: 'Mobile Development' },
+    { label: 'Cybersecurity' },
+    { label: 'Network Engineering' },
+    { label: 'Cloud Computing' },
+    { label: 'DevOps' },
+    { label: 'Database Administration' },
+    { label: 'UI/UX Design' },
+    { label: 'Game Development' },
+    { label: 'Embedded Systems' },
+    { label: 'Robotics' },
+    { label: 'Virtual Reality/Augmented Reality' },
+    { label: 'Internet of Things (IoT)' },
+    { label: 'Big Data Analytics' },
+    { label: 'Blockchain Technology' },
+    { label: 'Bioinformatics' }
 ];
+
+
 
 
   const validateForm = () => {
@@ -119,23 +121,23 @@ const AuthScreen = () => {
       setInterestsWarning(true);
       return;
     }
-    if (!password) {
-      setPasswordWarning(true);
-      return;
-    }
-    if (!retypePassword || retypePassword !== password) {
-      setRetypePasswordWarning(true);
-      return;
-    }
+    // if (!password) {
+    //   setPasswordWarning(true);
+    //   return;
+    // }
+    // if (!retypePassword || retypePassword !== password) {
+    //   setRetypePasswordWarning(true);
+    //   return;
+    // }
 
     handleSignup();
   };
 
   const handleSignup = async () => {
-    const formData = { name, email, dob, city, occupation, interests, password };
+    const formData = { name, email, dob, city, occupation, interests};
 
     resp = await sendRequest(formData, "/signup");
-
+    console.log("Checking")
     if (resp.status === 200) {
       // Registration successful
       Alert.alert("Success", "User registered successfully!");
@@ -172,14 +174,14 @@ const AuthScreen = () => {
     return emailPattern.test(email);
   };
 
-  const togglePasswordVisibility = (field) => {
-    // Toggle password visibility
-    if (field === "password") {
-      setPasswordVisibility(!passwordVisibility);
-    } else if (field === "retypePassword") {
-      setRetypePasswordVisibility(!retypePasswordVisibility);
-    }
-  };
+  // const togglePasswordVisibility = (field) => {
+  //   // Toggle password visibility
+  //   if (field === "password") {
+  //     setPasswordVisibility(!passwordVisibility);
+  //   } else if (field === "retypePassword") {
+  //     setRetypePasswordVisibility(!retypePasswordVisibility);
+  //   }
+  // };
 
   return (
     <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
@@ -277,10 +279,10 @@ const AuthScreen = () => {
         style={styles.input}
         data={data}
         labelField="label"
-        valueField="value"
+        valueField="label"
         placeholder="Select your Intrest Area"
-        value={selected}
-        onChange={item => { setSelected(item);}}
+        value={interests}
+        onChange={(item) => { setInterests(item); setInterestsWarning(false);}}
         placeholderStyle={{color: 'grey', fontSize: 14.5}}
         containerStyle={{backgroundColor: '#333', borderColor: '#333', borderRadius: 10}}
         itemTextStyle={{color: 'grey'}}
@@ -302,7 +304,7 @@ const AuthScreen = () => {
         )}
 
         {/* Password Input */}
-        <View style={styles.passwordContainer}>
+        {/* <View style={styles.passwordContainer}>
           <TextInput
             style={styles.passwordInput}
             placeholder="Password"
@@ -330,7 +332,7 @@ const AuthScreen = () => {
           <Text style={styles.warning}>Password is required</Text>
         )}
 
-        {/* Retype Password Input */}
+        Retype Password Input
         <View style={styles.passwordContainer}>
           <TextInput
             style={styles.passwordInput}
@@ -357,7 +359,7 @@ const AuthScreen = () => {
         </View>
         {retypePasswordWarning && (
           <Text style={styles.warning}>Passwords do not match</Text>
-        )}
+        )} */}
       </View>
       <TouchableOpacity style={styles.button} onPress={validateForm}>
         <Text style={styles.buttonText}>Sign Up</Text>
