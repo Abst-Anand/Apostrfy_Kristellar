@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, FlatList, Image, Share } from 'react-native'; // Import Share from 'react-native'
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, FlatList, Image, Share,Dimensions } from 'react-native'; // Import Share from 'react-native'
 import { Feather } from '@expo/vector-icons'; 
 import { useNavigation } from '@react-navigation/native'; 
+import CustomStatusbar from './CustomStatusBar';
+
+const { width, height } = Dimensions.get('window');
 
 const ConnectionScreen = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -62,6 +65,7 @@ const ConnectionScreen = () => {
 
   return (
     <View style={styles.container}>
+      <CustomStatusbar />
       {/* Search Bar */}
       <View style={styles.searchContainer}>
         <Feather name="search" size={24} color="#ccc" style={styles.searchIcon} />
@@ -106,7 +110,7 @@ const ConnectionScreen = () => {
         <FooterButton icon="message-circle" onPress={() => navigation.navigate('MessagesScreen')} />
         <FooterButton icon="map-pin" onPress={() => navigation.navigate('MapScreen')} />
         <FooterButton icon="users" onPress={() => navigation.navigate('ConnectionScreen')} />
-        <FooterButton icon="bell" onPress={() => navigation.navigate('NotificationsScreen')} />
+        <FooterButton icon="bell" onPress={() => navigation.navigate('NotificationPage')} />
       </View>
     </View>
   );
@@ -124,7 +128,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#000000',
-  
+    paddingTop: height * 0.02,
     padding: 16,
   },
   searchContainer: {

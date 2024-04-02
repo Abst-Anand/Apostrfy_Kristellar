@@ -5,6 +5,7 @@ import { Feather } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native'; // Import useNavigation hook
 import { createStackNavigator } from '@react-navigation/stack';
 import * as ImagePicker from 'expo-image-picker';
+import CustomStatusbar from './CustomStatusBar'
 
 const { width, height } = Dimensions.get('window');
 
@@ -129,6 +130,7 @@ const WriteThoughtScreen = () => {
 
   return (
     <LinearGradient colors={['#040504', '#040504']} style={styles.container}>
+   <CustomStatusbar />
       <TouchableOpacity
         style={styles.profileContainer}
         onPress={handleProfilePress} // Handle single press on profile picture
@@ -173,7 +175,7 @@ const WriteThoughtScreen = () => {
         <FooterButton icon="message-circle" onPress={() => navigation.navigate('ChatList')} />
         <FooterButton icon="map-pin" onPress={() => navigation.navigate('MapPage')} />
         <FooterButton icon="users" onPress={() => navigation.navigate('ConnectionScreen')} />
-        <FooterButton icon="bell" onPress={() => navigation.navigate('notification')} />
+        <FooterButton icon="bell" onPress={() => navigation.navigate('NotificationPage')} />
       </View>
     </LinearGradient>
   );
@@ -192,6 +194,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     backgroundColor: '#11235a',
+    paddingTop: height * 0.02,
   },
   profileContainer: {
     width: '40%',

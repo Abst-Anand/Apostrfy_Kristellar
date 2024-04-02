@@ -32,7 +32,7 @@ import PromptPage from './components/PromptPage';
 import SentimentAnalysisPage from './components/SentimentAnalysisPage';
 
 import BiometricPage from './components/BiometricPage';
-import notification from './components/notification';
+import NotificationPage from './components/NotificationPage';
 import ChatList from './components/ChatList';
 import ConnectionList from './components/ConnectionList';
 import Pvtmsg from './components/Pvtmsg';
@@ -46,6 +46,7 @@ const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
+      
         <Stack.Screen name="Auth" component={AuthScreen} />
         <Stack.Screen name="CreatePasswordScreen" component={CreatePasswordScreen}/>
         <Stack.Screen name="UniqueCode" component={UniqueCode}/>
@@ -77,7 +78,7 @@ const App = () => {
         <Stack.Screen name="SentimentAnalysisPage" component={SentimentAnalysisPage}/>
        
         <Stack.Screen name="BiometricPage" component={BiometricPage}/>
-        <Stack.Screen name="notification" component={notification}/>
+        <Stack.Screen name="NotificationPage" component={NotificationPage}/>
         <Stack.Screen name="ChatList" component={ChatList}/>
         <Stack.Screen name="Pvtmsg" component={Pvtmsg}/>
         <Stack.Screen name="ConnectionList" component={ConnectionList}/>

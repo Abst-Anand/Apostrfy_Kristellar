@@ -11,8 +11,12 @@ import {
   Platform,
   Keyboard,
   ScrollView,
+  Dimensions,
 } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons'; // Import MaterialIcons for horizontal send icon
+import CustomStatusbar from './CustomStatusBar';
+
+const { width, height } = Dimensions.get('window');
 
 const Pvtmsg = ({ route, navigation }) => {
   const { user } = route.params;
@@ -183,6 +187,7 @@ const Pvtmsg = ({ route, navigation }) => {
       behavior={Platform.OS === 'ios' ? 'padding' : null}
       keyboardVerticalOffset={Platform.OS === 'ios' ? 80 : -200} // Adjusted offset for Android
     >
+    <CustomStatusbar />
       <ScrollView
         contentContainerStyle={styles.scrollContainer}
         ref={scrollViewRef}
@@ -239,6 +244,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#000000',
     padding: 16,
+    paddingTop: height * 0.02,
   },
   scrollContainer: {
     flexGrow: 1,
