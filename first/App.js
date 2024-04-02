@@ -3,7 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import AuthScreen from './components/AuthScreen';
 import LoginScreen from './components/LoginScreen';
-import SignUpScreen from './components/SignUpScreen';
+// import SignUpScreen from './components/SignUpScreen';
 import ForgetPasswordScreen from './components/ForgetPasswordScreen';
 import ChangePassword from './components/ChangePassword';
 // import AppExternalBioMetric from './components/AppExternalBioMetric';
@@ -47,10 +47,10 @@ const App = () => {
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Auth" component={AuthScreen} />
+        <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="CreatePasswordScreen" component={CreatePasswordScreen}/>
         <Stack.Screen name="UniqueCode" component={UniqueCode}/>
         <Stack.Screen name="SplashScreen" component={SplashScreen}/>
-        <Stack.Screen name="Login" component={LoginScreen} />
         {/* <Stack.Screen name="SignUp" component={SignUpScreen} /> */}
         <Stack.Screen name="ForgetPasswordScreen" component={ForgetPasswordScreen}/>
         <Stack.Screen name="ChangePassword" component={ChangePassword}/>

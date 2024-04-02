@@ -110,7 +110,7 @@
             >
               ${code}
             </p>
-            <span style="font-weight: 600; color: #1f1f1f;">Do not re-register if you have this code.</span>.
+            <span style="font-weight: 600; color: #1f1f1f;">You are advised not to re-register if you have this code.</span>.
           </div>
         </div>
 

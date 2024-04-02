@@ -7,7 +7,8 @@ import {
   StyleSheet,
   Dimensions,
   KeyboardAvoidingView,
-  ScrollView
+  ScrollView,
+  StatusBar
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { Alert } from "react-native";
@@ -184,7 +185,8 @@ const AuthScreen = () => {
   // };
 
   return (
-    <KeyboardAvoidingView style={{ flex: 1 }} behavior="padding">
+    <KeyboardAvoidingView style={styles.keyboardView} behavior="padding">
+      <StatusBar backgroundColor="#000" barStyle="light-content" />
       <ScrollView contentContainerStyle={styles.scrollViewContent}>
     <View style={styles.container}>
       <Text style={styles.title}>WELCOME!</Text>
@@ -371,6 +373,9 @@ const AuthScreen = () => {
 };
 
 const styles = StyleSheet.create({
+  keyboardView:{
+    flex: 1,
+  },
   scrollViewContent: {
     flexGrow: 1,
     justifyContent: 'center',
@@ -382,11 +387,13 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     padding: width * 0.1,
+    paddingTop:height / 8
   },
   title: {
     fontSize: width * 0.1,
     color: "#fff",
     marginBottom: height * 0.05,
+    
   },
   inputContainer: {
     width: "100%",
@@ -409,9 +416,10 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginBottom: height * 0.02,
+    
   },
   buttonText: {
-    fontSize: width * 0.05,
+    fontSize:15,
     color: "#000",
     fontWeight: "bold",
   },
@@ -420,23 +428,8 @@ const styles = StyleSheet.create({
     fontSize: width * 0.04,
     marginBottom: height * 0.01,
   },
-  passwordContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: height * 0.02,
-    width:300,
-  },
-  passwordInput: {
-    flex: 1,
-    height: height * 0.06,
-    backgroundColor: "#333",
-    borderRadius: 8,
-    color: "#fff",
-    paddingHorizontal: width * 0.03,
-  },
-  eyeIcon: {
-    marginLeft: -width * 0.1,
-  },
+  
+
 });
 
 export default AuthScreen;

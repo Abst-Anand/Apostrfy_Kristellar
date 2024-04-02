@@ -16,19 +16,18 @@ import { sendRequest } from "../backend/handlers/sendRequestFromUI";
 const UniqueCode = () => {
   const navigation = useNavigation();
 
-  const [code, setCode] = useState(['', '', '', '', '']);
+  const [code, setCode] = useState(["", "", "", "", ""]);
   //const [isCodeComplete, setIsCodeComplete] = useState(false);
   const inputRefs = useRef([...Array(5)].map(() => React.createRef()));
-  const [codeWarning, setCodeWarning] = useState('');
+  const [codeWarning, setCodeWarning] = useState("");
 
   const handleButtonClick = async () => {
+    const isEmpty = code.some((input) => input === "");
 
-    const isEmpty = code.some(input => input === '');
-  
-  if (isEmpty) {
-    setCodeWarning('Please enter your code.');
-    return;
-  }
+    if (isEmpty) {
+      setCodeWarning("Please enter your code.");
+      return;
+    }
 
     let t = "";
     for (let i = 0; i < 5; i++) {
@@ -43,17 +42,15 @@ const UniqueCode = () => {
     const response = await sendRequest(formData, "/unique");
     const responseData = await response.json();
     if (responseData.status) {
-      Alert.alert("Nub: ", responseData.uniquecode);
-      navigation.navigate("CreatePasswordScreen", {
-        message: responseData.uniquecode,
-      });
+      Alert.alert(responseData.message);
+      navigation.navigate("CreatePasswordScreen", {message: responseData.uniquecode,});
     } else {
       Alert.alert(responseData.message);
     }
   };
 
   useEffect(() => {
-    const filledInputs = code.filter(input => input !== '').length;
+    const filledInputs = code.filter((input) => input !== "").length;
     //setIsCodeComplete(filledInputs === 5);
   }, [code]);
 
@@ -65,10 +62,10 @@ const UniqueCode = () => {
     newCode[index] = text;
     setCode(newCode);
 
-    if (text === '' && index > 0) {
+    if (text === "" && index > 0) {
       // Move focus to the previous input if the current input is deleted
-      inputRefs.current[index -1].focus();
-    } else if (text === '' && index === 0) {
+      inputRefs.current[index - 1].focus();
+    } else if (text === "" && index === 0) {
       // Clear the current input and keep focus on it
       inputRefs.current[index].clear();
     } else if (text.length === 1 && index < 4) {
@@ -86,7 +83,7 @@ const UniqueCode = () => {
         </Text>
 
         <View style={styles.codeContainer}>
-  {code.map((value, index) => (
+          {code.map((value, index) => (
             <TextInput
               key={index}
               style={styles.codeInput}
@@ -95,7 +92,7 @@ const UniqueCode = () => {
               keyboardType="ascii-capable" // ASCII capable keyboard
               value={value}
               onChangeText={(text) => handleInputChange(text, index)}
-              ref={input => inputRefs.current[index] = input} // Correct ref assignment
+              ref={(input) => (inputRefs.current[index] = input)} // Correct ref assignment
               //placeholder="-"
               placeholderTextColor="grey" // Placeholder color
             />
@@ -105,10 +102,7 @@ const UniqueCode = () => {
       </ScrollView>
 
       <View style={styles.buttonContainer}>
-        <Button
-          title="Submit"
-          onPress={handleButtonClick}
-        />
+        <Button title="Submit" onPress={handleButtonClick} />
       </View>
     </View>
   );
@@ -161,7 +155,7 @@ const styles = StyleSheet.create({
     color: "red",
     fontSize: 16,
     marginTop: 10,
-    marginLeft: 25
+    marginLeft: 25,
   },
 });
 
