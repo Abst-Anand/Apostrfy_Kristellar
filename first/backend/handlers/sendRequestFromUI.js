@@ -1,20 +1,18 @@
 //moved code to index.js for simplicity
 import { API } from "./api";
 
-const bcrypt = require('bcryptjs')
 
-import { hashPassword } from "../hash/hasher";
 
 export const sendRequest = async (formData, path) => {
-  console.log(`Request at path: ${path}`)
+  console.log(`Request at path: ${path}`);
   console.log("Data: ", formData);
-  let hashedPswrd = ''
-  if(formData.userPassword){
-    pss = formData.userPassword
-    hashedPswrd = await bcrypt.hash("pss", 10)
-  }
-  console.log("pss",pss)
-  console.log("Hashedpss",hashedPswrd)
+  // let hashedPswrd = "";
+  // if (formData.userPassword) {
+  //   pss = formData.userPassword;
+  
+  // }
+  // console.log("pss", pss);
+  // console.log("Hashedpss", hashedPswrd);
   try {
     const url = API + path;
     const response = await fetch(url, {

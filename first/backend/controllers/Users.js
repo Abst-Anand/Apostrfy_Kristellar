@@ -1,6 +1,5 @@
 //https://vscode.dev/github/Abst-Anand/Apostrfy_Kristellar/blob/main888ced
 
-
 const UsersModel = require("../models/UsersModel");
 const UniqueCodeModel = require("../models/MapUserAndUniqueCode");
 
@@ -26,8 +25,6 @@ function generateUniqueCode() {
 
   return code;
 }
-
-
 
 async function handleSignUp(req, res) {
   try {
@@ -74,6 +71,9 @@ async function handleUniqueCode(req, res) {
 
     if (user) {
       console.log(user.email);
+      const filter = {uniquecode: req.body.code}
+      const update = {$set:{status:true}}
+      
       const data = {
         status: true,
         message: "Code found",
@@ -100,11 +100,10 @@ async function handleCreatePassword(req, res) {
   try {
     const userId = req.body.userUniqueCode;
     const password = req.body.userPassword;
-   
 
     const user = await UniqueCodeModel.findOne({ uniquecode: userId });
     if (user) {
-      const filter = { email: user.email}; // Unique email ID to match
+      const filter = { email: user.email }; // Unique email ID to match
 
       const update = {
         $set: {
@@ -112,14 +111,28 @@ async function handleCreatePassword(req, res) {
         },
       };
 
-      const user2 = await UsersModel.findByIdAndUpdate(filter,update);
-      console.log("5", user2);
-    }else{
-      console.log("user Not found")
+      const user2 = await UsersModel.findOneAndUpdate(filter, update);
+      if (user2) {
+        const data = {
+          status: true,
+          message: "Your Password has been Added",
+        };
+        return res.status(200).json(data);
+      }
+    } else {
+      const data = {
+        status: false,
+        message: "No User found with given Unique Code",
+      };
+      return res.status(400).json(data);
     }
   } catch (error) {
-    console.log("user Not found error:",error)
-
+    const data = {
+      status: false,
+      message: "Mongo Error",
+    };
+    console.log("err:", error);
+    return res.status(501).json(data);
   }
 }
 
@@ -140,4 +153,3 @@ module.exports = {
   handleUniqueCode,
   handleCreatePassword,
 };
-

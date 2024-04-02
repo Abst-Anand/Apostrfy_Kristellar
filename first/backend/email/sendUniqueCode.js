@@ -1,5 +1,7 @@
 const nodeMail = require("nodemailer");
 
+const { emailTemplate } = require("./emailHTML");
+
 const transporter = nodeMail.createTransport({
   service: "gmail",
   auth: {
@@ -9,26 +11,7 @@ const transporter = nodeMail.createTransport({
 });
 function sendEmailToUser(email, name, uniqueCode) {
   // Define the HTML email template
-  const htmlTemplate = `
-  <html>
-  <head>
-    <style>
-      /* Add your CSS styles here */
-    </style>
-  </head>
-  <body>
-    <div>
-      <h1>Hello ${name},</h1>
-    
-      <h2>You unique code is : ${uniqueCode}</h2>
-    </div>
-    <div id="footer" style="background-color: #f0f0f0; padding: 10px;">
-      <p>Thank You choosing us.</p>
-      <!-- Add your footer content here -->
-    </div>
-  </body>
-  </html>
-`;
+  const htmlTemplate = emailTemplate(name,uniqueCode)
   const mailOptions = {
     from: "araaz56@gmail.com",
     to: email,
@@ -48,3 +31,28 @@ function sendEmailToUser(email, name, uniqueCode) {
 module.exports = {
   sendEmailToUser,
 };
+
+/**
+ * 
+ * 
+  <html>
+  <head>
+    <style>
+      
+      </style>
+      </head>
+      <body>
+        <div>
+          <h1>Hello ${name},</h1>
+        
+          <h2>You unique code is : ${uniqueCode}</h2>
+        </div>
+        <div id="footer" style="background-color: #f0f0f0; padding: 10px;">
+          <p>Thank You choosing us.</p>
+          <!-- Add your footer content here -->
+        </div>
+      </body>
+      </html>
+    
+ * 
+ */

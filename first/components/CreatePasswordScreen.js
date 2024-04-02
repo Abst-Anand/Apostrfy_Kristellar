@@ -7,6 +7,7 @@ import {
   StyleSheet,
   Dimensions,
   TouchableWithoutFeedback,
+  Alert,
 } from "react-native";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import { FontAwesome } from "@expo/vector-icons"; // Import FontAwesome icon library
@@ -14,13 +15,13 @@ import { FontAwesome } from "@expo/vector-icons"; // Import FontAwesome icon lib
 const { width, height } = Dimensions.get("window");
 
 import { sendRequest } from "../backend/handlers/sendRequestFromUI";
-import {hashPassword} from "../backend/hash/hasher";
+
 
 
 
 const CreatePasswordScreen = () => {
   const route = useRoute();
-  // const uniqueCode = route.params.message;
+  const uniqueCode = route.params.message;
 
   const navigation = useNavigation();
 
@@ -52,11 +53,21 @@ const CreatePasswordScreen = () => {
   };
 
   const handleCreatePassword = async () => {
-    const formData = { userUniqueCode: "OLOGT", userPassword: newPassword };
+    const formData = { userUniqueCode: uniqueCode, userPassword: newPassword };
 
     const response = await sendRequest(formData, "/signup/createpassword");
+    const responseData = await response.json()
+    
+    if(responseData.status){
+      Alert.alert(responseData.message)
+      navigation.navigate("SplashScreen");
+    }
+    else{
+      Alert.alert(responseData.message)
+    }
 
-    navigation.navigate("SplashScreen");
+
+
   };
 
   const toggleNewPasswordVisibility = () => {

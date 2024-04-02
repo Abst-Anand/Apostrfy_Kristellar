@@ -11,6 +11,10 @@ const signUpSchema = new mongoose.Schema(
       unique: true,
       required: true,
     },
+    password:{
+      type: String,
+
+    },
     dob: {
       type: String,
       required: true,
@@ -24,7 +28,7 @@ const signUpSchema = new mongoose.Schema(
       required: true,
     },
     interests: {
-      type: String,
+      type: Array,
       required: true,
     },
   },
