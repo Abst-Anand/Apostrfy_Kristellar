@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, FlatList, Image } from 'react-native';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, FlatList, Image, Modal } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { useNavigation } from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/FontAwesome5'; // Assuming you have Ionicons installed
 
 const ChatList = () => {
   const navigation = useNavigation();
+  const [showModal, setShowModal] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [connections, setConnections] = useState([
     { id: '1', name: 'Uday Bhanu', lastMessage: 'Hey there!', profileImage: require('../assets/IMG_1616.jpg') },
@@ -66,8 +68,65 @@ const ChatList = () => {
     setConnections(connections.filter(conn => conn.id !== itemId));
   };
 
+  const closeModalAndNavigate = () => {
+    setShowModal(false);
+    // Navigate to chat list screen
+    navigation.navigate("ChatList");
+  };
+
   return (
     <View style={styles.container}>
+      <Modal
+        visible={showModal}
+        animationType="slide"
+        transparent={true}
+      >
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <TouchableOpacity style={styles.timesButton} onPress={closeModalAndNavigate}>
+                <Icon name='times' color={'white'} />
+            </TouchableOpacity>
+                <Text style={styles.title}>Add Connection</Text>
+                <Text style={styles.subtitle}>Scan QR code or enter their code</Text>
+
+                <View style={styles.codeContainer}>
+                    {[...Array(5)].map((_, index) => (
+                    <TextInput 
+                    key={index}
+                    style={styles.codeInput}
+                    maxLength={1}
+                    keyboardType="ascii-capable"
+                    onChangeText={(text) => {
+                        if (text.length === 1 && index < 4) {
+                        // Move focus to the next input
+                        this[`inputRef${index + 1}`].focus();
+                        }
+                        // Update the code state
+                        setCode((prevCode) => {
+                        const newCode = [...prevCode];
+                        newCode[index] = text;
+                        return newCode;
+                        });
+                    }}
+                    onKeyPress={({ nativeEvent: { key } }) => {
+                        if (key === 'Backspace' && index > 0 && !code[index]-1) {
+                        // Move focus to the previous input
+                        this[`inputRef${index - 1}`].focus();
+                        }
+                    }}
+                    ref={(input) => (this[`inputRef${index}`] = input)}
+                    />
+                ))}
+                    <TouchableOpacity style={styles.button} onPress={closeModalAndNavigate}>
+                            <Text style={{color:'white'}}>Send Request</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity >
+                        <Text style={{ color: '#57A89F', top: 50, right: 225}} >Scan QR code</Text>
+                    </TouchableOpacity>
+                </View>
+          </View>
+        </View>
+      </Modal>
       {/* Top Bar */}
       <View style={styles.topBar}>
         <View style={styles.searchBar}>
@@ -123,6 +182,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#000000', // Black background color
     padding: 16,
+    marginTop: 40,
   },
   topBar: {
     flexDirection: 'row',
@@ -209,6 +269,84 @@ const styles = StyleSheet.create({
     width: 60,
     height: 60,
     borderRadius: 30,
+  },
+  modalContainer: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: 775,
+    //backgroundColor: 'rgba(0, 0, 0, 0.5)',
+  },
+  modalContent: {
+    height: 775,
+    backgroundColor: '#000000',
+    borderTopLeftRadius: 50,
+    borderTopRightRadius: 50,
+    paddingVertical: 50,
+    paddingHorizontal: 50,
+  },
+  modalText: {
+    color: '#FFFFFF',
+    fontSize: 18,
+    paddingHorizontal: 10,
+    
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'normal',
+    color: 'white',
+    marginTop: 100,
+    left: 70,
+    //paddingHorizontal: 10,
+    bottom:50,
+  },
+  subtitle: {
+    fontSize: 18,
+    color: 'white',
+    marginVertical: 10,
+    left: 30,
+    bottom:50,
+  },
+  codeContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 200,
+  },
+  codeInput: {
+    width: 40,
+    height: 50,
+    fontSize: 20,
+    textAlign: 'center',
+    margin: 5,
+    borderRightWidth: 3,
+    borderColor: 'grey',
+    color: 'white',
+    bottom:180,
+    left: 130,
+  },
+  button: {
+    //top: 20,
+    width: 200,
+    height: 50,
+    borderRadius: 20, // half of the height to make it oval
+    backgroundColor: '#0D1C1C', // example background color
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderColor:'white',
+    borderWidth: 1,
+    alignSelf: 'center',
+    right: 80,
+  },
+  timesButton: {
+    width: 30,
+    height: 30,
+    backgroundColor: 'grey',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 50,
+    left: 280,
   },
 });
 
