@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, FlatList, Dimensions } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
+import CustomStatusbar from './CustomStatusBar';
+
+const { width, height } = Dimensions.get('window');
 
 const PreviousSessionsScreen = () => {
   const months = [
@@ -104,6 +107,7 @@ const PreviousSessionsScreen = () => {
 
   return (
     <View style={styles.container}>
+    <CustomStatusbar />
       <View style={styles.monthSelector}>
         <TouchableOpacity onPress={handlePrevMonth}>
           <MaterialIcons name="keyboard-arrow-left" size={24} color="#4d7e79" />
@@ -128,7 +132,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#000',
     paddingHorizontal: 20,
-    paddingTop: 20,
+    paddingTop: height * 0.02,
   },
   monthSelector: {
     flexDirection: 'row',

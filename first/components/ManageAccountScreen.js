@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Modal } from 'react-native';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Modal, Dimensions } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons'; // Import Ionicons from expo-vector-icons
+import CustomStatusbar from './CustomStatusBar';
+const { width, height } = Dimensions.get('window');
 
 const ManageAccountScreen = ({ navigation }) => {
   const [showModal, setShowModal] = useState(false);
@@ -23,6 +25,7 @@ const ManageAccountScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
+      <CustomStatusbar />
       <View style={styles.content}>
         <Text style={styles.heading}>Username</Text>
         <TextInput
@@ -91,6 +94,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#000',
     padding: 20,
+    paddingTop: height * 0.02,
   },
   content: {
     flex: 1,

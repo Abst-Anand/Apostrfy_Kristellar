@@ -1,7 +1,9 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Dimensions } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Ionicons } from '@expo/vector-icons'; // Import Ionicons from expo-vector-icons
+import CustomStatusbar from './CustomStatusBar';
+const { width, height } = Dimensions.get('window');
 
 const SettingsScreen = () => {
   const navigation = useNavigation();
@@ -34,13 +36,18 @@ const SettingsScreen = () => {
 
   return (
     <View style={styles.container}>
+      <CustomStatusbar />
+      <Text style={{color: 'white', fontSize: 20, fontWeight: 'bold', marginLeft: 15}}>Settings</Text>
+
       <ScrollView contentContainerStyle={styles.scrollView}>
+      
         <View style={styles.section}>
           {/* Remove the heading and back arrow */}
           {/* <Text style={styles.sectionTitle}>Account</Text> */}
           {/* <TouchableOpacity onPress={() => navigation.goBack()}> */}
           {/*   <Ionicons name="chevron-back-outline" size={24} color="#fff" /> */}
           {/* </TouchableOpacity> */}
+          <Text style={styles.sectionTitle}>Account</Text>
           <SettingItem text="Manage Account" screenName="ManageAccountScreen" iconName="settings-outline" />
           <SettingItem text="Previous Sessions" screenName="PreviousSessionsScreen" iconName="time-outline" />
           {/* Update the text color for "Logout" */}
@@ -70,6 +77,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#000',
+    paddingTop: height * 0.02,
   },
   scrollView: {
     flexGrow: 1,

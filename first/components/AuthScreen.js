@@ -138,7 +138,6 @@ const AuthScreen = () => {
     const formData = { name, email, dob, city, occupation, interests};
 
     resp = await sendRequest(formData, "/signup");
-    console.log("Checking")
     if (resp.status === 200) {
       // Registration successful
       Alert.alert("Success", "User registered successfully!");

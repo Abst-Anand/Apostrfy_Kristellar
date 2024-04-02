@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, FlatList, Image, Modal } from 'react-native';
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, FlatList, Image, Modal, Dimensions } from 'react-native';
 import { Feather } from '@expo/vector-icons';
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome5'; // Assuming you have Ionicons installed
+import CustomStatusbar from './CustomStatusBar';
+import { LinearGradient } from 'expo-linear-gradient';
 
+const { width, height } = Dimensions.get('window');
 const ChatList = () => {
   const navigation = useNavigation();
   const [showModal, setShowModal] = useState(true);
@@ -17,6 +20,8 @@ const ChatList = () => {
     { id: '5', name: 'Anand Raj', lastMessage: 'Hello!', profileImage: require('../assets/pic1.png') },
     { id: '6', name: 'Priyanka Mohakud', lastMessage: 'Hello!', profileImage: require('../assets/priya (1).jpg') },
     { id: '7', name: 'Manisha Choudhary', lastMessage: 'Hello!', profileImage: require('../assets/mani.jpg') },// Add more connections as needed
+    { id: '8', name: 'Manisha Choudhary', lastMessage: 'Hello!', profileImage: require('../assets/mani.jpg') },// Add more connections as needed
+
   ]);
   const [filteredConnections, setFilteredConnections] = useState([]);
 
@@ -74,8 +79,17 @@ const ChatList = () => {
     navigation.navigate("ChatList");
   };
 
+  const FooterButton = ({ icon, onPress }) => {
+    return (
+      <TouchableOpacity style={styles.footerButton} onPress={onPress}>
+        <Feather name={icon} size={24} color="#fff" />
+      </TouchableOpacity>
+    );
+  };
+
   return (
-    <View style={styles.container}>
+    <LinearGradient colors={['#040504', '#040504']} style={styles.container}>
+    <CustomStatusbar />
       <Modal
         visible={showModal}
         animationType="slide"
@@ -120,9 +134,9 @@ const ChatList = () => {
                     <TouchableOpacity style={styles.button} onPress={closeModalAndNavigate}>
                             <Text style={{color:'white'}}>Send Request</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity >
+                    {/* <TouchableOpacity >
                         <Text style={{ color: '#57A89F', top: 50, right: 225}} >Scan QR code</Text>
-                    </TouchableOpacity>
+                    </TouchableOpacity> */}
                 </View>
           </View>
         </View>
@@ -166,14 +180,23 @@ const ChatList = () => {
 
       {/* Messages Title */}
       <Text style={styles.messagesTitle}>Messages</Text>
-
+      
       {/* Chat List */}
       <FlatList
         data={searchQuery ? filteredConnections : connections}
         renderItem={renderChatItem}
         keyExtractor={item => item.id}
       />
-    </View>
+
+      <View style={styles.footer}>
+          {/* Footer buttons */}
+          <FooterButton icon="home" onPress={() => navigation.navigate('WriteThoughtScreen')} />
+          <FooterButton icon="message-circle" onPress={() => navigation.navigate('ChatList')} />
+          <FooterButton icon="map-pin" onPress={() => navigation.navigate('MapPage')} />
+          <FooterButton icon="users" onPress={() => navigation.navigate('ConnectionScreen')} />
+          <FooterButton icon="bell" onPress={() => navigation.navigate('NotificationPage')} />
+        </View>
+      </LinearGradient>
   );
 };
 
@@ -182,7 +205,8 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#000000', // Black background color
     padding: 16,
-    marginTop: 40,
+    paddingTop: height * 0.02,
+    paddingBottom: height * 0.08
   },
   topBar: {
     flexDirection: 'row',
@@ -324,7 +348,7 @@ const styles = StyleSheet.create({
     borderColor: 'grey',
     color: 'white',
     bottom:180,
-    left: 130,
+    left: 80,
   },
   button: {
     //top: 20,
@@ -337,7 +361,7 @@ const styles = StyleSheet.create({
     borderColor:'white',
     borderWidth: 1,
     alignSelf: 'center',
-    right: 80,
+    right: 130,
   },
   timesButton: {
     width: 30,
@@ -347,6 +371,20 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 50,
     left: 280,
+  },
+  footer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    padding: 10,
+    backgroundColor: '#000000',
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 0,
+  },
+  footerButton: {
+    padding: 10,
   },
 });
 

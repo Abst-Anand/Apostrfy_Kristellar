@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Dimensions } from 'react-native';
 import { Ionicons } from '@expo/vector-icons'; // Import Ionicons from expo-vector-icons
 import { LinearGradient } from 'expo-linear-gradient';
 import { Feather } from '@expo/vector-icons'; // Import Feather from expo-vector-icons
+import CustomStatusbar from './CustomStatusBar';
+
+const { width, height } = Dimensions.get('window');
 
 const ManageSubscriptionScreen = () => {
   const [selectedPlan, setSelectedPlan] = useState('yearly');
@@ -28,6 +31,7 @@ const ManageSubscriptionScreen = () => {
 
   return (
     <ScrollView contentContainerStyle={styles.scrollViewContainer}>
+    <CustomStatusbar />
       <View style={styles.container}>
         <View style={styles.box}>
           <Text style={styles.title}>Apostrfy Pro!</Text>
@@ -97,6 +101,7 @@ const FooterButton = ({ icon, onPress }) => {
 const styles = StyleSheet.create({
   scrollViewContainer: {
     flexGrow: 1,
+    paddingTop: height * 0.0,
   },
   container: {
     flex: 1,
@@ -104,6 +109,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#000',
     borderWidth: 10,
+    
   },
   box: {
     width: '90%',

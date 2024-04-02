@@ -1,16 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { SectionList, Image, StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
+import { SectionList, Image, StyleSheet, Text, View, TextInput, TouchableOpacity, Dimensions } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import CustomStatusbar from './CustomStatusBar';
+import { LinearGradient } from 'expo-linear-gradient';
+import { Feather } from '@expo/vector-icons';
+
+const { width, height } = Dimensions.get('window');
 
 const data = [
-  { id: 1, name: 'Uday Bhanu', profilePic: require('../assets/IMG_1616.jpg') },
-  { id: 2, name: 'Debashis Sundaray', profilePic: require('../assets/IMG_1617.jpg') },
-  { id: 3, name: 'Sumit Kumar Panda', profilePic: require('../assets/86e8411b-9d19-4bc4-b420-5b57c8aa30be.jpg') },
-  { id: 4, name: 'Satyanarayan Mishraw', profilePic: require('../assets/IMG_1618.jpg') },
-  { id: 5, name: 'Anand Raj', profilePic: require('../assets/pic1.png') },
-  { id: 6, name: 'Priyanka Mohakud', profilePic: require('../assets/priya (1).jpg') },
-  { id: 7, name: 'Manisha Choudhary', profilePic: require('../assets/mani.jpg') },
+  { id: 1, name: 'Uday Bhanu', profileImage: require('../assets/IMG_1616.jpg') },
+  { id: 2, name: 'Debashis Sundaray', profileImage: require('../assets/IMG_1617.jpg') },
+  { id: 3, name: 'Sumit Kumar Panda', profileImage: require('../assets/86e8411b-9d19-4bc4-b420-5b57c8aa30be.jpg') },
+  { id: 4, name: 'Satyanarayan Mishraw', profileImage: require('../assets/IMG_1618.jpg') },
+  { id: 5, name: 'Anand Raj', profileImage: require('../assets/pic1.png') },
+  { id: 6, name: 'Priyanka Mohakud', profileImage: require('../assets/priya (1).jpg') },
+  { id: 7, name: 'Manisha Choudhary', profileImage: require('../assets/mani.jpg') },
 ];
 
 const ConnectionList = () => {
@@ -34,7 +39,7 @@ const ConnectionList = () => {
   const renderItem = ({ item }) => (
     <TouchableOpacity onPress={() => handleProfilePress(item)}>
       <View style={styles.itemContainer}>
-        <Image source={item.profilePic} style={styles.profilePic} />
+        <Image source={item.profileImage} style={styles.profilePic} />
         <Text style={styles.name}>{item.name}</Text>
       </View>
     </TouchableOpacity>
@@ -60,9 +65,17 @@ const ConnectionList = () => {
       title: initial,
       data: groupedData[initial],
     }));
+    const FooterButton = ({ icon, onPress }) => {
+      return (
+        <TouchableOpacity style={styles.footerButton} onPress={onPress}>
+          <Feather name={icon} size={24} color="#fff" />
+        </TouchableOpacity>
+      );
+    };
 
   return (
-    <View style={styles.container}>
+  <LinearGradient colors={['#040504', '#040504']} style={styles.container}>
+    <CustomStatusbar />
       <View style={styles.searchContainer}>
         <Ionicons name="search" size={24} color="white" style={styles.searchIcon} />
         <TextInput
@@ -85,7 +98,15 @@ const ConnectionList = () => {
         )}
         showsVerticalScrollIndicator={true}
       />
-    </View>
+    <View style={styles.footer}>
+        {/* Footer buttons */}
+        <FooterButton icon="home" onPress={() => navigation.navigate('WriteThoughtScreen')} />
+        <FooterButton icon="message-circle" onPress={() => navigation.navigate('ChatList')} />
+        <FooterButton icon="map-pin" onPress={() => navigation.navigate('MapPage')} />
+        <FooterButton icon="users" onPress={() => navigation.navigate('ConnectionScreen')} />
+        <FooterButton icon="bell" onPress={() => navigation.navigate('NotificationPage')} />
+      </View>
+    </LinearGradient>
   );
 };
 
@@ -93,6 +114,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#000000',
+    paddingBottom: height * 0.08
   },
   itemContainer: {
     flexDirection: 'row',
@@ -138,6 +160,20 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 20,
     fontWeight: 'bold',
+  },
+  footer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    padding: 10,
+    backgroundColor: '#000000',
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 0,
+  },
+  footerButton: {
+    padding: 10,
   },
 });
 

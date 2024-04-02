@@ -1,8 +1,11 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, Dimensions } from 'react-native';
 import { Feather } from '@expo/vector-icons'; // Import Feather from expo/vector-icons
 import { Share } from 'react-native';
 import { useNavigation } from '@react-navigation/native'; // Import useNavigation hook
+import CustomStatusbar from './CustomStatusBar';
+
+const { width, height } = Dimensions.get('window');
 
 const handleShare = async () => {
   try {
@@ -31,6 +34,7 @@ const InviteFriendsScreen = () => {
 
   return (
     <View style={styles.container}>
+      <CustomStatusbar />
       <View style={styles.box}>
         <Text style={[styles.heading, { color: '#fff' }]}>Invite Friends</Text>
         <Text style={[styles.description, { color: '#fff' }]}>
@@ -55,7 +59,7 @@ const InviteFriendsScreen = () => {
         <FooterButton icon="message-circle" onPress={() => navigation.navigate('ChatList')} />
         <FooterButton icon="map-pin" onPress={() => navigation.navigate('MapPage')} />
         <FooterButton icon="users" onPress={() => navigation.navigate('ConnectionScreen')} />
-        <FooterButton icon="bell" onPress={() => navigation.navigate('notification')} />
+        <FooterButton icon="bell" onPress={() => navigation.navigate('NotificationPage')} />
       </View>
     </View>
   );
@@ -73,6 +77,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#000000',
+    paddingTop: height * 0.07,
   },
   box: {
     width: '80%',
