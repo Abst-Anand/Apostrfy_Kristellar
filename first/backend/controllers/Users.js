@@ -52,16 +52,24 @@ async function handleSignUp(req, res) {
       occupation,
       interests,
     });
+    const data = {
+      status:true,
+      message: "Success, User registered successfully!",
+    }
 
     await newUser.save();
     await newUserWithUniqueCode.save();
     await sendEmailToUser(email, name, codeTemp);
 
-    res.status(200).send("User registered successfully!");
-    console.log("done");
+    return res.status(200).json(data);
+    
   } catch (error) {
-    console.log("Error from index:", error);
-    res.status(501).send("Failed to register user.");
+    console.log("Error from handleSignUP:", error);
+    const data = {
+      status:false,
+      message: "Sorry, Unable to Register",
+    }
+    return res.status(501).json(data);
   }
 }
 

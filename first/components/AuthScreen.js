@@ -138,17 +138,15 @@ const AuthScreen = () => {
     const formData = { name, email, dob, city, occupation, interests};
 
     resp = await sendRequest(formData, "/signup");
-    if (resp.status === 200) {
+    respData = await resp.json()
+    if (respData.status) {
       // Registration successful
-      Alert.alert("Success", "User registered successfully!");
+      Alert.alert(respData.message);
       navigation.navigate("UniqueCode");
-    } else if (resp.status === 501) {
-      //if already registered
-      Alert.alert("Your email is already registered with us");
     } else {
-      // Server error
-      Alert.alert("Error", "Failed to register. Please try again.");
-    }
+      //if already registered
+      Alert.alert(respData.message);
+    } 
   };
 
   const formatDob = (text) => {
