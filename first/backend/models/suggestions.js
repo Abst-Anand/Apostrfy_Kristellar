@@ -16,7 +16,7 @@ const suggestions = mongoose.Schema({
   }],
 });
 
-const SuggestionsModel = mongoose.Model('suggestions',suggestions);
+const SuggestionsModel = mongoose.model('suggestions',suggestions);
 
 module.exports = SuggestionsModel;
 
