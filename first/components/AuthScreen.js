@@ -69,8 +69,9 @@ const AuthScreen = () => {
     { label: 'Bioinformatics' }
 ];
 
-
-
+    const navigateToLoginScreen = () => {
+      navigation.navigate('LoginScreen'); 
+    };
 
   const validateForm = () => {
     // Validate input fields
@@ -301,68 +302,13 @@ const AuthScreen = () => {
         {interestsWarning && (
           <Text style={styles.warning}>Interests are required</Text>
         )}
-
-        {/* Password Input */}
-        {/* <View style={styles.passwordContainer}>
-          <TextInput
-            style={styles.passwordInput}
-            placeholder="Password"
-            onChangeText={(text) => {
-              setPassword(text);
-              setPasswordWarning(false); // Clear warning when user starts typing
-            }}
-            value={password}
-            secureTextEntry={!passwordVisibility}
-            autoCapitalize="none"
-            placeholderTextColor="#999"
-          />
-          <TouchableOpacity
-            style={styles.eyeIcon}
-            onPress={() => togglePasswordVisibility("password")}
-          >
-            <MaterialIcons
-              name={passwordVisibility ? "visibility-off" : "visibility"}
-              size={24}
-              color="#999"
-            />
-          </TouchableOpacity>
-        </View>
-        {passwordWarning && (
-          <Text style={styles.warning}>Password is required</Text>
-        )}
-
-        Retype Password Input
-        <View style={styles.passwordContainer}>
-          <TextInput
-            style={styles.passwordInput}
-            placeholder="Retype Password"
-            onChangeText={(text) => {
-              setRetypePassword(text);
-              setRetypePasswordWarning(false); // Clear warning when user starts typing
-            }}
-            value={retypePassword}
-            secureTextEntry={!retypePasswordVisibility}
-            autoCapitalize="none"
-            placeholderTextColor="#999"
-          />
-          <TouchableOpacity
-            style={styles.eyeIcon}
-            onPress={() => togglePasswordVisibility("retypePassword")}
-          >
-            <MaterialIcons
-              name={retypePasswordVisibility ? "visibility-off" : "visibility"}
-              size={24}
-              color="#999"
-            />
-          </TouchableOpacity>
-        </View>
-        {retypePasswordWarning && (
-          <Text style={styles.warning}>Passwords do not match</Text>
-        )} */}
       </View>
       <TouchableOpacity style={styles.button} onPress={validateForm}>
         <Text style={styles.buttonText}>Sign Up</Text>
       </TouchableOpacity>
+      <TouchableOpacity onPress={navigateToLoginScreen}>
+      <Text style={{ color: 'white' }}>Already Registered?</Text>
+    </TouchableOpacity>
     </View>
     </ScrollView>
     </KeyboardAvoidingView>

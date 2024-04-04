@@ -34,6 +34,7 @@ const ConnectionScreen = () => {
     // Logic to handle playing with selected users
     const selectedUser = onlineUsers.find(user => user.id === selectedUserId);
     console.log('Selected user:', selectedUser);
+    navigation.navigate('CountdownTimer');
   };
 
   const handleShareInvite = () => {
@@ -107,7 +108,7 @@ const ConnectionScreen = () => {
       </TouchableOpacity>
       <View style={styles.footer}>
         <FooterButton icon="home" onPress={() => navigation.navigate('WriteThoughtScreen')} />
-        <FooterButton icon="message-circle" onPress={() => navigation.navigate('MessagesScreen')} />
+        <FooterButton icon="message-circle" onPress={() => navigation.navigate('ChatList')} />
         <FooterButton icon="map-pin" onPress={() => navigation.navigate('MapScreen')} />
         <FooterButton icon="users" onPress={() => navigation.navigate('ConnectionScreen')} />
         <FooterButton icon="bell" onPress={() => navigation.navigate('NotificationPage')} />

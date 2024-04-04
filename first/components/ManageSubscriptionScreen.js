@@ -4,6 +4,7 @@ import { Ionicons } from '@expo/vector-icons'; // Import Ionicons from expo-vect
 import { LinearGradient } from 'expo-linear-gradient';
 import { Feather } from '@expo/vector-icons'; // Import Feather from expo-vector-icons
 import CustomStatusbar from './CustomStatusBar';
+import { useNavigation } from '@react-navigation/native'; // Import useNavigation hook
 
 const { width, height } = Dimensions.get('window');
 
@@ -11,6 +12,7 @@ const ManageSubscriptionScreen = () => {
   const [selectedPlan, setSelectedPlan] = useState('yearly');
   const [yearlyChecked, setYearlyChecked] = useState(true);
   const [monthlyChecked, setMonthlyChecked] = useState(false);
+  const navigation = useNavigation(); // Initialize navigation
 
   const handleYearlyCheck = () => {
     setYearlyChecked(true);
@@ -80,11 +82,11 @@ const ManageSubscriptionScreen = () => {
       </View>
 
       <View style={styles.footer}>
-        <FooterButton icon="home" onPress={() => console.log('Home button pressed')} />
-        <FooterButton icon="message-circle" onPress={() => console.log('Messages button pressed')} />
-        <FooterButton icon="map-pin" onPress={() => console.log('Map button pressed')} />
-        <FooterButton icon="users" onPress={() => console.log('Contacts button pressed')} />
-        <FooterButton icon="bell" onPress={() => console.log('Notifications button pressed')} />
+      <FooterButton icon="home" onPress={() => navigation.navigate('WriteThoughtScreen')} />
+        <FooterButton icon="message-circle" onPress={() => navigation.navigate('ChatList')} />
+        <FooterButton icon="map-pin" onPress={() => navigation.navigate('MapPage')} />
+        <FooterButton icon="users" onPress={() => navigation.navigate('ConnectionScreen')} />
+        <FooterButton icon="bell" onPress={() => navigation.navigate('NotificationPage')} />
       </View>
     </ScrollView>
   );
