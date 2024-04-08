@@ -56,7 +56,7 @@ const UniqueCode = () => {
 
   const handleInputChange = (text, index) => {
     // Convert input text to uppercase
-    text = text.toUpperCase();
+    //text = text.toUpperCase();
 
     const newCode = [...code];
     newCode[index] = text;
