@@ -70,7 +70,7 @@ const AuthScreen = () => {
 ];
 
     const navigateToLoginScreen = () => {
-      navigation.navigate('LoginScreen'); 
+      navigation.navigate('Login'); 
     };
 
   const validateForm = () => {

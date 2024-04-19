@@ -6,13 +6,7 @@ import { API } from "./api";
 export const sendRequest = async (formData, path) => {
   console.log(`Request at path: ${path}`);
   console.log("Data: ", formData);
-  // let hashedPswrd = "";
-  // if (formData.userPassword) {
-  //   pss = formData.userPassword;
-  
-  // }
-  // console.log("pss", pss);
-  // console.log("Hashedpss", hashedPswrd);
+
   try {
     const url = API + path;
     const response = await fetch(url, {

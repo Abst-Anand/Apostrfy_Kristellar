@@ -21,7 +21,7 @@ import { sendRequest } from "../backend/handlers/sendRequestFromUI";
 
 const CreatePasswordScreen = () => {
   const route = useRoute();
-  const uniqueCode = route.params.message;
+  const uniqueCode = route.params.uniquecode;
 
   const navigation = useNavigation();
 
@@ -60,7 +60,7 @@ const CreatePasswordScreen = () => {
     
     if(responseData.status){
       Alert.alert(responseData.message)
-      navigation.navigate("SplashScreen");
+      navigation.navigate("SplashScreen",{uniquecode: uniqueCode});
     }
     else{
       Alert.alert(responseData.message)

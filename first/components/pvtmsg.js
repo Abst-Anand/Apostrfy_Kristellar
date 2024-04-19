@@ -19,15 +19,15 @@ import CustomStatusbar from './CustomStatusBar';
 const { width, height } = Dimensions.get('window');
 
 const Pvtmsg = ({ route, navigation }) => {
-  const { user } = route.params;
+  const { fromUser, toUser, socket } = route.params;
+  
+  
+  
   const [message, setMessage] = useState('');
-  const [messages, setMessages] = useState([
-    // Example messages for testing
-    { id: 1, text: 'Hello, how are you?', sender: 'other' },
-    { id: 2, text: 'Can we meet tomorrow?', sender: 'user' },
-    { id: 3, text: 'Sure, let\'s meet at 2 PM.', sender: 'other' },
-  ]);
+  const [messages, setMessages] = useState([]);         
   const scrollViewRef = useRef();
+
+
 
   const handleThreeDotMenu = () => {
     // Logic for handling the three-dot menu options
@@ -166,10 +166,25 @@ const Pvtmsg = ({ route, navigation }) => {
 
   const handleSendMessage = () => {
     const newMessage = { id: messages.length + 1, text: message, sender: 'user' };
+    
+      socket.emit('sendMessage', { fromUser:fromUser, toUser:toUser.id,message:message });
     setMessages([...messages, newMessage]);
     setMessage('');
     scrollViewRef.current.scrollToEnd({ animated: true });
   };
+
+  useEffect(()=>{
+    if(socket){
+     
+      socket.on('message',(data)=>{
+        const newMessage = { id: messages.length + 1, text: data, sender: 'other' };
+        setMessages([...messages, newMessage]);
+        setMessage('');
+
+      })
+    }
+  })
+
 
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => {
@@ -201,9 +216,9 @@ const Pvtmsg = ({ route, navigation }) => {
 
         <View style={styles.profileContainer}>
           <View style={styles.profileImageContainer}>
-            <Image source={user.profileImage} style={styles.profileImage} />
+            <Image source={toUser.profileImage} style={styles.profileImage} />
           </View>
-          <Text style={styles.profileName}>{user.name}</Text>
+          <Text style={styles.profileName}>{toUser.name}</Text>
         </View>
 
         <View style={styles.messagesContainer}>
@@ -296,7 +311,7 @@ const styles = StyleSheet.create({
   messageInputContainer: {
     borderWidth: 2,
     borderColor: '#075e54',
-    borderRadius: 30,
+    borderRadius: 20,
     paddingTop: 8,
     paddingBottom: 13,
     marginBottom: 30,
@@ -306,7 +321,7 @@ const styles = StyleSheet.create({
   },
   messageInput: {
     borderWidth: 0,
-    paddingVertical: 8,
+    paddingVertical: height*0.0002,
     paddingHorizontal: 16,
     color: '#FFFFFF',
     flex: 1,

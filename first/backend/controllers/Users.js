@@ -2,12 +2,14 @@
 
 const UsersModel = require("../models/UsersModel");
 const UniqueCodeModel = require("../models/MapUserAndUniqueCode");
+const SuggestionsModel = require("../models/suggestions");
 
 const { sendEmailToUser } = require("../email/sendUniqueCode");
 
+const {getUniqueCodeFromEmail} = require('./Getters')
+
 async function codeExists(uniqueCode) {
   const flag = await UniqueCodeModel.findOne({ unique_code: uniqueCode });
-  console.log(flag);
   if (flag) return true;
   return false;
 }
@@ -28,11 +30,10 @@ function generateUniqueCode() {
 
 async function handleSignUp(req, res) {
   try {
-    //console.log(req.body);
+  
     const { name, email, dob, city, occupation, interests } = req.body;
-    console.log(req.body);
 
-    console.log("SignUp using \n");
+    console.log("SignUp using");
     console.log("Email:", email);
     console.log("Name:", name);
 
@@ -53,23 +54,63 @@ async function handleSignUp(req, res) {
       interests,
     });
     const data = {
-      status:true,
+      status: true,
       message: "Success, User registered successfully!",
-    }
+    };
 
     await newUser.save();
     await newUserWithUniqueCode.save();
+    await handleUserInterests(req, res, codeTemp);
     await sendEmailToUser(email, name, codeTemp);
 
     return res.status(200).json(data);
-    
   } catch (error) {
     console.log("Error from handleSignUP:", error);
     const data = {
-      status:false,
+      status: false,
       message: "Sorry, Unable to Register",
-    }
+    };
     return res.status(501).json(data);
+  }
+}
+
+async function handleUserInterests(req, res, userID) {
+  const { interests } = req.body;
+
+  const allUsers = await UsersModel.find({});
+  
+  if (allUsers) {
+    const usersHavingInterests = {};
+
+    usersHavingInterests[userID] = {};
+
+    for (let i = 0; i < interests.length; i++) {
+      let interest = interests[i];
+      for (let j = 0; j < allUsers.length; j++) {
+        let othersInterests = allUsers[j].interests;
+        for (let k = 0; k < othersInterests.length; k++) {
+          if (interest === othersInterests[k]) {
+            if (usersHavingInterests[userID].hasOwnProperty(interest)) {
+              usersHavingInterests[userID][interest].push(allUsers[j].email);
+            } else {
+              usersHavingInterests[userID][interest] = [allUsers[j].email];
+            }
+          }
+        }
+      }
+    }
+  
+    const userData = new SuggestionsModel({
+      userId: userID,
+      interests: usersHavingInterests[userID],
+    });
+    try {
+      console.warn(userData);
+      const result = await userData.save();
+      console.log("Suggestions saved successfully :) ");
+    } catch (error) {
+      console.error("Error saving data:", error);
+    }
   }
 }
 
@@ -152,22 +193,23 @@ async function handleSignIn(req, res) {
     const { email, password } = req.body;
 
     const user = await UsersModel.findOne({ email, password });
-    if(user){
+    const uniqueCode = await getUniqueCodeFromEmail(email)
+    console.log(user)
+    if (user) {
       const data = {
-        status:true,
-        message:"Login Successful",
-        email:email,
-      } 
-      return res.status(200).json(data)
+        status: true,
+        message: "Login Successful",
+        uniquecode: uniqueCode,
+      };
+      return res.status(200).json(data);
     }
     const data = {
-      status:false,
-      message:"Wrong Credentials",
-      email:email,
-    } 
-    return res.status(404).json(data)
-
-    
+      status: false,
+      message: "Wrong Credentials",
+      email: email,
+    };
+    console.log(data)
+    return res.status(404).json(data);
   } catch (error) {
     const data = {
       status: false,
@@ -180,6 +222,7 @@ async function handleSignIn(req, res) {
 
 module.exports = {
   handleSignUp,
+  handleUserInterests,
   handleSignIn,
   handleUniqueCode,
   handleCreatePassword,

@@ -1,8 +1,13 @@
 import React, { useEffect } from 'react';
 import { StyleSheet, View, Text, Animated, Easing, Image, Button } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
 const SplashScreen = () => {
+
+
+  const route = useRoute();
+  const uniqueCode = route.params.uniquecode;
+
   const logoScale = new Animated.Value(0);
   const titleOpacity = new Animated.Value(0);
   const rideOpacity = new Animated.Value(0);
@@ -32,7 +37,7 @@ const SplashScreen = () => {
         }),
       ]).start(() => {
         // Redirect to second animation page
-        navigation.navigate('SecondAnimation');
+        navigation.navigate('SecondAnimation',{uniquecode: uniqueCode});
       });
     });
   }, []);

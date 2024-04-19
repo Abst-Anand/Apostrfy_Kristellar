@@ -194,7 +194,7 @@ const ChatList = () => {
           <FooterButton icon="message-circle" onPress={() => navigation.navigate('ChatList')} />
           <FooterButton icon="map-pin" onPress={() => navigation.navigate('MapPage')} />
           <FooterButton icon="users" onPress={() => navigation.navigate('ConnectionScreen')} />
-          <FooterButton icon="bell" onPress={() => navigation.navigate('NotificationPage')} />
+          <FooterButton icon="bell" onPress={() => navigation.navigate('Notif')} />
         </View>
       </LinearGradient>
   );

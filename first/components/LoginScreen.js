@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Dimensions,Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/FontAwesome'; // Import the icon library
 
@@ -28,24 +28,25 @@ const LoginScreen = () => {
       setPasswordWarning(true)
       return
     }
+    handleLogin()
   }
 
   const handleLogin = async() => {
-    validateForm()
+    
     const formData = {email, password}
-    navigation.navigate('SplashScreen');
+    
     //console.warn("FormData:",formData)
 
     const response = await sendRequest(formData,'/signin')
+    const respData = await response.json()
 
-    if(response.status === 201){
-      console.warn("Login Successfull")
+    if(respData.status){
+      Alert.alert("Login Successfull")
+      navigation.navigate('WriteThoughtScreen',{uniquecode: respData.uniquecode});
     }
-    else if(response.status === 501){
-      console.warn("Wrong Credentials")
-    }
+   
     else{
-      console.warn("Something went wrong")
+      Alert.alert("Wrong Credentials")
     }
 
 
@@ -89,7 +90,7 @@ const LoginScreen = () => {
           <Icon name={isPasswordVisible ? 'eye' : 'eye-slash'} size={20} color="#F7CF3D" />
         </TouchableOpacity>
       </View>
-      <TouchableOpacity style={styles.button} onPress={handleLogin}>
+      <TouchableOpacity style={styles.button} onPress={validateForm}>
         <Text style={styles.buttonText}>Sign In</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={handleForgetPassword}>

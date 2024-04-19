@@ -43,7 +43,7 @@ const UniqueCode = () => {
     const responseData = await response.json();
     if (responseData.status) {
       Alert.alert(responseData.message);
-      navigation.navigate("CreatePasswordScreen", {message: responseData.uniquecode,});
+      navigation.navigate("CreatePasswordScreen", {uniquecode: responseData.uniquecode,});
     } else {
       Alert.alert(responseData.message);
     }
