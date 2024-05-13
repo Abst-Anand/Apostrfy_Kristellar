@@ -77,6 +77,10 @@ async function handleShowConnections(req, res) {
   }
 }
 
+async function showPendingRequests(req, res){
+  
+}
+
 module.exports = {
   handleAddConnection,
   handleShowConnections,
