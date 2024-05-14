@@ -8,36 +8,47 @@ async function handleAddConnection(req, res) {
   const fromUser = req.body.from;
   const toUser = req.body.to;
 
-  console.log(fromUser, toUser)
+  console.log(fromUser, toUser);
 
-  const user = await ConnectionsModel.findOne({userid: fromUser})
+  const user = await ConnectionsModel.findOne({ userid: fromUser });
   const DataToPush = {
     userId: toUser,
-  }
+  };
 
-  if(user){
-    
-    const addfrnd = await user.connsList.push(DataToPush)
-    if(addfrnd){
-      if (user.connsList.some(conn => conn.userId === toUser)) {
-        return res.status(400).json({ status: false, message: "Connection already exists." });
+  if (user) {
+    const addfrnd = await user.connsList.push(DataToPush);
+    if (addfrnd) {
+      if (user.connsList.some((conn) => conn.userId === toUser)) {
+        return res
+          .status(400)
+          .json({ status: false, message: "Connection already exists." });
       }
-      
-      await user.save()
-      return res.status(200).json({status:true,message:"Connection Request Sent Succesfully"})
+
+      await user.save();
+      return res
+        .status(200)
+        .json({ status: true, message: "Connection Request Sent Succesfully" });
     }
-    return res.status(501).json({status:false,message:"Unable to send Connection Request"})    
+    return res
+      .status(501)
+      .json({ status: false, message: "Unable to send Connection Request" });
   }
   const newConnection = new ConnectionsModel({
     userid: fromUser,
-    connsList:[DataToPush]
-  })
-  const stat = await newConnection.save()
-  if(stat){
-    return res.status(200).json({status:true, message:"Your First Connection Request has been sent succesfully!!"})
+    connsList: [DataToPush],
+  });
+  const stat = await newConnection.save();
+  if (stat) {
+    return res.status(200).json({
+      status: true,
+      message: "Your First Connection Request has been sent succesfully!!",
+    });
   }
-    
-  return res.status(200).json({status:false,message:"Unable to send your First Connection Request :/"})
+
+  return res.status(200).json({
+    status: false,
+    message: "Unable to send your First Connection Request :/",
+  });
 }
 
 async function handleShowConnections(req, res) {
@@ -77,8 +88,34 @@ async function handleShowConnections(req, res) {
   }
 }
 
-async function showPendingRequests(req, res){
-  
+async function showPendingRequests(req, res) {
+  const currentUser = req.body.currentUser;
+  const friendToAdd = req.body.newUser;
+
+  const user = await ConnectionsModel.findOne({ userid: friendToAdd });
+  if (user) {
+  }
+}
+
+async function acceptConnectionRequest(req, res) {
+  const currentUser = req.body.currentUser;
+  const friendToAdd = req.body.newUser;
+
+  const user1 = await ConnectionsModel.findOne({ userid: currentUser });
+  const user2 = await ConnectionsModel.findOne({ userid: friendToAdd });
+  if (user1 && user2) {
+    const filter1 = { userid: currentUser };
+    const update1 = { $set: { "connsList.$.status": true } };
+    const temp1 = await ConnectionsModel.findOneAndUpdate(filter1, update1);
+
+    const filter2 = { userid: friendToAdd };
+    const update2 = { $set: { "connsList.$.status": true } };
+    const temp2 = await ConnectionsModel.findOneAndUpdate(filter2, update2);
+
+    if(temp1 && temp2){
+      return res.json({status:true, message:"Connection Added"});
+    }
+  }
 }
 
 module.exports = {
